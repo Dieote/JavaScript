@@ -204,6 +204,7 @@ console.log(resultado);
 
 */
 
+/*
 // if-else
 let condicion = false;
 
@@ -264,6 +265,7 @@ console.log(estacion);
 0am-6am - Durmiendo
 */
 
+/*
 let horaDia = 23;
 let mensaje;
 
@@ -306,3 +308,5 @@ switch( mes ){
         estacion = 'Valor incorrecto';                
 }
 console.log(estacion);
+
+*/
