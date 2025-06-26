@@ -10,9 +10,11 @@
 </head>
 
 <body>
-  <div class="container mt-5">
-    <div class="card shadow p-4">
-      <h1 class="mb-4 text-center">Aplicación Calculadora</h1>
+  <div class="container mt-5 mb-4">
+    <h1 class="mb-4 text-center">Aplicación Calculadora</h1>
+
+        <!-- CARD Calculos-->
+    <div class="card shadow p-4 mt-5">
 
       <form id="forma">
         <div class="row">
@@ -32,7 +34,7 @@
               <button type="button" class="btn btn-secondary" onclick="restar()">Restar</button>
               <button type="button" class="btn btn-success" onclick="multiplicar()">Multiplicar</button>
               <button type="button" class="btn btn-danger" onclick="dividir()">Dividir</button>
-              <button type="button" class="btn btn-outline-dark" onclick="limpiar()">Limpiar</button>
+              <button type="button" class="btn btn-outline-dark" onclick="limpiarCalculo()">Limpiar</button>
             </div>
           </div>
 
@@ -47,12 +49,85 @@
         </div>
       </form>
     </div>
+
+    <hr>
+
+    <div class="accordion" id="historialAcordeon">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="encabezadoHistorial">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseHistorial" aria-expanded="false" aria-controls="collapseHistorial">
+            Ver historial de cálculos
+          </button>
+        </h2>
+        <div id="collapseHistorial" class="accordion-collapse collapse" aria-labelledby="encabezadoHistorial"
+          data-bs-parent="#historialAcordeon">
+          <div class="accordion-body">
+            <ul id="listaHistorialCalculo" class="list-group"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD PULGADAS-->
+    <h2 class="mb-4 text-center">Conversor a Metros</h2>
+    <div class="card shadow p-4 mt-5">
+      <form id="formaConversor">
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="valorAConvertir" class="form-label">Valor en pies</label>
+              <input type="number" class="form-control" id="valorAConvertir"
+                placeholder="Escribe la medida a convertir">
+            </div>
+
+            <div class="mb-3 d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-primary" onclick="piesAMetros()">Pies a Metros</button>
+              <button type="button" class="btn btn-secondary" onclick="pulgadasAMetros()">Pulgadas a Metros</button>
+              <button type="button" class="btn btn-success" onclick="fraccionPulgadaAMetro()">Fraccion De Pulgada A
+                Metro</button>
+              <button type="button" class="btn btn-outline-dark" onclick="limpiarConversor()">Limpiar</button>
+            </div>
+          </div>
+
+          <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="border rounded p-4 bg-light w-100 text-center">
+              <div id="resultadoConversor" class="fw-bold fs-4 text-primary">
+                Resultado: —
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+      <hr />
+
+      <div class="accordion" id="historialAcordeon">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="encabezadoHistorial">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseHistorial" aria-expanded="false" aria-controls="collapseHistorial">
+              Ver historial de conversiones
+            </button>
+          </h2>
+          <div id="collapseHistorial" class="accordion-collapse collapse" aria-labelledby="encabezadoHistorial"
+          data-bs-parent="#historialAcordeon">
+          <div class="accordion-body">
+            <ul id="listaHistorialConversor" class="list-group"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
     crossorigin="anonymous"></script>
   <script src='js/app.js'></script>
+
 </body>
 
 </html>
