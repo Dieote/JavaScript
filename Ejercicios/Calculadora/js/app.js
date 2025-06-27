@@ -60,6 +60,7 @@ function agregarEnHistorialCalculo(operacion, resultado){
     item.className = 'list-group-item';
     item.textContent = `${operacion} = ${resultado}`;
     lista.prepend(item); //lo mas nuevo primero
+
 }
 
 /* Converor
@@ -109,10 +110,32 @@ function limpiarConversor() {
     document.getElementById('resultadoConversor').textContent = 'Resultado: —';
 }
 
+function limpiarHistorialConversor() {
+    localStorage.removeItem("historialConversor");
+    document.getElementById("listaHistorialConversor").innerHTML = '';
+}
+
 function agregarEnHistorialConversor(operacion, resultado){
     const lista = document.getElementById("listaHistorialConversor");
     const item = document.createElement("li");
     item.className = 'list-group-item';
     item.textContent = `${operacion} = ${resultado}`;
     lista.prepend(item);
+
+    //localStorage
+    let historial = JSON.parse(localStorage.getItem("historialConversor")) || [];
+    historial.unshift({ operacion, resultado }); //lo mas nuevo primero
+    localStorage.setItem("historialConversor", JSON.stringify(historial));
+}
+
+function cargarHistorialConversor() {
+    const historial = JSON.parse(localStorage.getItem("historialConversor")) || [];
+    const lista = document.getElementById("listaHistorialConversor");
+    lista.innerHTML = ""; // limpia antes de insertar
+    historial.forEach(item => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.textContent = `${item.operacion} = ${item.resultado}`;
+        lista.appendChild(li);
+    });
 }
