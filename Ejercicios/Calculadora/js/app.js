@@ -4,6 +4,13 @@ function sumar(){
     const forma = document.getElementById(`forma`);
     let operandoA = forma[`operandoA`];
     let operandoB = forma[`operandoB`];
+
+    ocultarAlertaCalculo();
+    if (operandoA.value === '' || operandoB === '') {
+        mostrarAlertaCalculo("¡Faltan datos para realizar la suma!")
+        return;
+    }
+
     let resultado = parseFloat(operandoA.value) + parseFloat(operandoB.value);
     mostrarResultado(resultado);
     agregarEnHistorialCalculo(`${operandoA.value} + ${operandoB.value}`, resultado);
@@ -12,6 +19,13 @@ function restar(){
     const forma = document.getElementById('forma');
     let operandoA = forma['operandoA'];
     let operandoB = forma['operandoB'];
+
+    ocultarAlertaCalculo();
+    if (operandoA.value === '' || operandoB === '') {
+        mostrarAlertaCalculo("¡Faltan datos para realizar la resta!")
+        return;
+    }
+
     let resultado = parseFloat(operandoA.value) - parseFloat(operandoB.value);
     mostrarResultado(resultado);
     agregarEnHistorialCalculo(`${operandoA.value} - ${operandoB.value}`, resultado);
@@ -21,9 +35,16 @@ function dividir(){
     const forma = document.getElementById('forma');
     let operandoA = forma['operandoA'];
     let operandoB = forma['operandoB'];
+    
+    ocultarAlertaCalculo();
+    if (operandoA.value === '' || operandoB === '') {
+        mostrarAlertaCalculo("¡Faltan datos para realizar la division!")
+        return;
+    }
+
     let resultado = parseFloat(operandoA.value) / parseFloat(operandoB.value);
     if (operandoB === 0) {
-        mostrarResultado('No se puede dividir entre cero');
+        mostrarAlertaCalculo('No se puede dividir entre cero');
     } else {
         mostrarResultado(resultado);
         agregarEnHistorialCalculo(`${operandoA.value} / ${operandoB.value}`, resultado);
@@ -34,6 +55,13 @@ function multiplicar(){
     const forma = document.getElementById('forma');
     let operandoA = forma['operandoA'];
     let operandoB = forma['operandoB'];
+
+    ocultarAlertaCalculo();
+    if (operandoA.value === '' || operandoB === '') {
+        mostrarAlertaCalculo("¡Faltan datos para realizar la multiplicacion!")
+        return;
+    }
+
     let resultado = parseFloat(operandoA.value) * parseFloat(operandoB.value);
     mostrarResultado(resultado);
     agregarEnHistorialCalculo(`${operandoA.value} * ${operandoB.value}`, resultado);
@@ -42,7 +70,7 @@ function multiplicar(){
 
 function mostrarResultado(resultado){
     if(isNaN(resultado)){
-        resultado = 'La operación no incluye números';
+        mostrarAlertaCalculo("¡La operación no incluye números!")
     }
     document.getElementById('resultado').innerHTML = `Resultado: ${resultado}`;
     console.log(`Resultado: ${resultado}`);
@@ -90,8 +118,9 @@ function cargarHistorialCalculo() {
 */
 function piesAMetros() {
     const valor = parseFloat(document.getElementById('valorAConvertir').value);
+    ocultarAlertaConversion();
     if (isNaN(valor)) {
-        mostrarResultadoConversor('Valor invalido');
+        mostrarAlertaConversion("¡La operación no incluye números!")
         return;
     }
     const resultado = (valor * 0.3048).toFixed(4); //redondear a 4 decimales
@@ -100,8 +129,9 @@ function piesAMetros() {
 }
 function pulgadasAMetros() {
     const valor = parseFloat(document.getElementById('valorAConvertir').value);
+    ocultarAlertaConversion();
     if (isNaN(valor)) {
-        mostrarResultadoConversor('Valor invalido');
+        mostrarAlertaConversion("¡La operación no incluye números!")
         return;
     }
     const resultado = (valor * 0.0254).toFixed(4); 
@@ -111,8 +141,9 @@ function pulgadasAMetros() {
 }
 function fraccionPulgadaAMetro() {
     const valor = parseFloat(document.getElementById('valorAConvertir').value);
+    ocultarAlertaConversion();
     if (isNaN(valor)) {
-        mostrarResultadoConversor('Valor invalido');
+        mostrarAlertaConversion("¡La operación no incluye números!")
         return;
     }
     const resultado = ((valor * 0.0254) / 16).toFixed(4); 
@@ -123,7 +154,7 @@ function fraccionPulgadaAMetro() {
 
 function mostrarResultadoConversor(resultado) {
     if(isNaN(resultado)){
-        resultado = 'La operación no incluye números';
+        mostrarAlertaConversion("¡La operación no incluye números!")
     }
     document.getElementById('resultadoConversor').textContent = `Resultado: ${resultado}`;
     console.log(`Resultado: ${resultado}`);
@@ -132,7 +163,7 @@ function mostrarResultadoConversor(resultado) {
 
 function limpiarConversor() {
     document.getElementById('valorAConvertir').value = '';
-    document.getElementById('resultadoConversor').textContent = 'Resultado: —';
+    document.getElementById('resultadoConversor').textContent = '';
 }
 
 function limpiarHistorialConversor() {
@@ -163,4 +194,27 @@ function cargarHistorialConversor() {
         li.textContent = `${item.operacion} = ${item.resultado}`;
         lista.appendChild(li);
     });
+}
+
+//alertas
+function mostrarAlertaCalculo(mensaje) {
+  const alerta = document.getElementById('AlertaCalculo');
+  alerta.textContent = mensaje;
+  alerta.classList.remove('invisible');
+}
+
+function ocultarAlertaCalculo() {
+  const alerta = document.getElementById('AlertaCalculo');
+  alerta.classList.add('invisible');
+}
+
+function mostrarAlertaConversion(mensaje) {
+  const alerta = document.getElementById('AlertaConversion');
+  alerta.textContent = mensaje;
+  alerta.classList.remove('invisible');
+}
+
+function ocultarAlertaConversion() {
+  const alerta = document.getElementById('AlertaConversion');
+  alerta.classList.add('invisible');
 }

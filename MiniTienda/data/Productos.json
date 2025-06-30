@@ -1,0 +1,386 @@
+[
+  {
+    "id": 1,
+    "nombre": "Camiseta básico",
+    "marca": "Under Armour",
+    "precio": 46.27,
+    "talla": "42",
+    "img": "img/camisetas/camiseta_logo.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Camiseta clásico",
+    "marca": "Under Armour",
+    "precio": 16.7,
+    "talla": "XL",
+    "img": "img/camisetas/camiseta_básica.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Camiseta básico",
+    "marca": "Reebok",
+    "precio": 31.27,
+    "talla": "38",
+    "img": "img/camisetas/camiseta_estampada.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Camiseta moderno",
+    "marca": "Reebok",
+    "precio": 23.72,
+    "talla": "XL",
+    "img": "img/camisetas/camiseta_básica.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Camiseta clásico",
+    "marca": "Puma",
+    "precio": 63.82,
+    "talla": "M",
+    "img": "img/camisetas/camiseta_deportiva.jpg"
+  },
+  {
+    "id": 6,
+    "nombre": "Camiseta básico",
+    "marca": "Puma",
+    "precio": 25.22,
+    "talla": "XL",
+    "img": "img/camisetas/camiseta_logo.jpg"
+  },
+  {
+    "id": 7,
+    "nombre": "Camiseta básico",
+    "marca": "Nike",
+    "precio": 35.67,
+    "talla": "L",
+    "img": "img/camisetas/camiseta_logo.jpg"
+  },
+  {
+    "id": 8,
+    "nombre": "Camiseta básico",
+    "marca": "Puma",
+    "precio": 24.27,
+    "talla": "L",
+    "img": "img/camisetas/camiseta_deportiva.jpg"
+  },
+  {
+    "id": 9,
+    "nombre": "Gorra moderno",
+    "marca": "Reebok",
+    "precio": 36.22,
+    "talla": "M",
+    "img": "img/gorras/gorra_snapback.jpg"
+  },
+  {
+    "id": 10,
+    "nombre": "Gorra básico",
+    "marca": "Puma",
+    "precio": 77.21,
+    "talla": "L",
+    "img": "img/gorras/gorra_moderno.jpg"
+  },
+  {
+    "id": 11,
+    "nombre": "Gorra premium",
+    "marca": "Reebok",
+    "precio": 50.4,
+    "talla": "S",
+    "img": "img/gorras/gorra_snapback.jpg"
+  },
+  {
+    "id": 12,
+    "nombre": "Gorra moderno",
+    "marca": "Nike",
+    "precio": 67.41,
+    "talla": "M",
+    "img": "img/gorras/gorra_snapback.jpg"
+  },
+  {
+    "id": 13,
+    "nombre": "Gorra moderno",
+    "marca": "Nike",
+    "precio": 32.96,
+    "talla": "38",
+    "img": "img/gorras/gorra_snapback.jpg"
+  },
+  {
+    "id": 14,
+    "nombre": "Gorra moderno",
+    "marca": "Adidas",
+    "precio": 66.24,
+    "talla": "44",
+    "img": "img/gorras/gorra_moderno.jpg"
+  },
+  {
+    "id": 15,
+    "nombre": "Gorra clásico",
+    "marca": "Nike",
+    "precio": 39.32,
+    "talla": "42",
+    "img": "img/gorras/gorra_deportiva.jpg"
+  },
+  {
+    "id": 16,
+    "nombre": "Gorra clásico",
+    "marca": "Puma",
+    "precio": 60.0,
+    "talla": "40",
+    "img": "img/gorras/gorra_deportiva.jpg"
+  },
+  {
+    "id": 17,
+    "nombre": "Pantalone premium",
+    "marca": "Under Armour",
+    "precio": 21.1,
+    "talla": "42",
+    "img": "img/pantalones/vaquero_rotos.jpg"
+  },
+  {
+    "id": 18,
+    "nombre": "Pantalone básico",
+    "marca": "Puma",
+    "precio": 58.19,
+    "talla": "XL",
+    "img": "img/pantalones/vaquero_clásico.jpg"
+  },
+  {
+    "id": 19,
+    "nombre": "Pantalone básico",
+    "marca": "Under Armour",
+    "precio": 58.19,
+    "talla": "42",
+    "img": "img/pantalones/vaquero_rotos.jpg"
+  },
+  {
+    "id": 20,
+    "nombre": "Pantalone básico",
+    "marca": "Nike",
+    "precio": 69.26,
+    "talla": "L",
+    "img": "img/pantalones/vaquero_rotos.jpg"
+  },
+  {
+    "id": 21,
+    "nombre": "Pantalone clásico",
+    "marca": "Puma",
+    "precio": 20.05,
+    "talla": "L",
+    "img": "img/pantalones/vaquero_oscuro.jpg"
+  },
+  {
+    "id": 22,
+    "nombre": "Pantalone básico",
+    "marca": "Nike",
+    "precio": 38.28,
+    "talla": "38",
+    "img": "img/pantalones/vaquero_oscuro.jpg"
+  },
+  {
+    "id": 23,
+    "nombre": "Pantalone clásico",
+    "marca": "Nike",
+    "precio": 72.65,
+    "talla": "S",
+    "img": "img/pantalones/vaquero_oscuro.jpg"
+  },
+  {
+    "id": 24,
+    "nombre": "Pantalone moderno",
+    "marca": "Adidas",
+    "precio": 17.02,
+    "talla": "44",
+    "img": "img/pantalones/vaquero_clásico.jpg"
+  },
+  {
+    "id": 25,
+    "nombre": "Chandal básico",
+    "marca": "Nike",
+    "precio": 65.51,
+    "talla": "XL",
+    "img": "img/chandal/chandal_gris.jpg"
+  },
+  {
+    "id": 26,
+    "nombre": "Chandal clásico",
+    "marca": "Under Armour",
+    "precio": 19.64,
+    "talla": "XL",
+    "img": "img/chandal/chandal_gris.jpg"
+  },
+  {
+    "id": 27,
+    "nombre": "Chandal clásico",
+    "marca": "Under Armour",
+    "precio": 57.09,
+    "talla": "XL",
+    "img": "img/chandal/chandal_azul.jpg"
+  },
+  {
+    "id": 28,
+    "nombre": "Chandal clásico",
+    "marca": "Nike",
+    "precio": 46.35,
+    "talla": "44",
+    "img": "img/chandal/chandal_rojo.jpg"
+  },
+  {
+    "id": 29,
+    "nombre": "Chandal moderno",
+    "marca": "Puma",
+    "precio": 45.52,
+    "talla": "S",
+    "img": "img/chandal/chandal_gris.jpg"
+  },
+  {
+    "id": 30,
+    "nombre": "Chandal premium",
+    "marca": "Nike",
+    "precio": 54.74,
+    "talla": "XL",
+    "img": "img/chandal/chandal_azul.jpg"
+  },
+  {
+    "id": 31,
+    "nombre": "Chandal moderno",
+    "marca": "Under Armour",
+    "precio": 56.02,
+    "talla": "38",
+    "img": "img/chandal/chandal_rojo.jpg"
+  },
+  {
+    "id": 32,
+    "nombre": "Chandal moderno",
+    "marca": "Nike",
+    "precio": 75.68,
+    "talla": "38",
+    "img": "img/chandal/chandal_negro.jpg"
+  },
+  {
+    "id": 33,
+    "nombre": "Zapatilla premium",
+    "marca": "Reebok",
+    "precio": 67.89,
+    "talla": "L",
+    "img": "img/zapatillas/zapatilla_clásica.jpg"
+  },
+  {
+    "id": 34,
+    "nombre": "Zapatilla moderno",
+    "marca": "Under Armour",
+    "precio": 33.61,
+    "talla": "44",
+    "img": "img/zapatillas/zapatilla_urbana.jpg"
+  },
+  {
+    "id": 35,
+    "nombre": "Zapatilla moderno",
+    "marca": "Adidas",
+    "precio": 26.04,
+    "talla": "L",
+    "img": "img/zapatillas/zapatilla_moderno.jpg"
+  },
+  {
+    "id": 36,
+    "nombre": "Zapatilla moderno",
+    "marca": "Nike",
+    "precio": 43.95,
+    "talla": "XL",
+    "img": "img/zapatillas/zapatilla_urbana.jpg"
+  },
+  {
+    "id": 37,
+    "nombre": "Zapatilla moderno",
+    "marca": "Puma",
+    "precio": 63.29,
+    "talla": "38",
+    "img": "img/zapatillas/zapatilla_running.jpg"
+  },
+  {
+    "id": 38,
+    "nombre": "Zapatilla clásico",
+    "marca": "Reebok",
+    "precio": 17.37,
+    "talla": "42",
+    "img": "img/zapatillas/zapatilla_moderno.jpg"
+  },
+  {
+    "id": 39,
+    "nombre": "Zapatilla clásico",
+    "marca": "Nike",
+    "precio": 44.6,
+    "talla": "42",
+    "img": "img/zapatillas/zapatilla_urbana.jpg"
+  },
+  {
+    "id": 40,
+    "nombre": "Zapatilla clásico",
+    "marca": "Puma",
+    "precio": 20.87,
+    "talla": "40",
+    "img": "img/zapatillas/zapatilla_running.jpg"
+  },
+  {
+    "id": 41,
+    "nombre": "Abrigo básico",
+    "marca": "Nike",
+    "precio": 30.99,
+    "talla": "L",
+    "img": "img/abrigos/abrigo_clásico.jpg"
+  },
+  {
+    "id": 42,
+    "nombre": "Abrigo clásico",
+    "marca": "Adidas",
+    "precio": 28.81,
+    "talla": "38",
+    "img": "img/abrigos/abrigo_ligero.jpg"
+  },
+  {
+    "id": 43,
+    "nombre": "Abrigo clásico",
+    "marca": "Under Armour",
+    "precio": 33.53,
+    "talla": "XL",
+    "img": "img/abrigos/abrigo_moderno.jpg"
+  },
+  {
+    "id": 44,
+    "nombre": "Abrigo premium",
+    "marca": "Puma",
+    "precio": 67.73,
+    "talla": "42",
+    "img": "img/abrigos/abrigo_invierno.jpg"
+  },
+  {
+    "id": 45,
+    "nombre": "Abrigo premium",
+    "marca": "Adidas",
+    "precio": 56.66,
+    "talla": "L",
+    "img": "img/abrigos/abrigo_clásico.jpg"
+  },
+  {
+    "id": 46,
+    "nombre": "Abrigo premium",
+    "marca": "Adidas",
+    "precio": 45.29,
+    "talla": "42",
+    "img": "img/abrigos/abrigo_invierno.jpg"
+  },
+  {
+    "id": 47,
+    "nombre": "Abrigo clásico",
+    "marca": "Adidas",
+    "precio": 52.52,
+    "talla": "42",
+    "img": "img/abrigos/abrigo_moderno.jpg"
+  },
+  {
+    "id": 48,
+    "nombre": "Abrigo básico",
+    "marca": "Puma",
+    "precio": 38.55,
+    "talla": "L",
+    "img": "img/abrigos/abrigo_ligero.jpg"
+  }
+]
