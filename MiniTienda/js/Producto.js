@@ -62,4 +62,19 @@ class Producto {
     toString() {
         return this.mostrarInformacion();
     }
+    generarHTML() {
+        return `
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <img src="${this.img}" class="card-img-top producto-img" alt="${this.nombre}">
+                <div class="card-body">
+                    <h5 class="card-title">${this.nombre}</h5>
+                    <p class="card-text">${this.marca} - Talla: ${this.talla}</p>
+                    <p class="card-text fw-bold">$${this.precio}</p>
+                    <button class="btn btn-primary btn-sm agregar-carrito" data-id="${this.id}">Agregar al carrito</button>
+                </div>
+            </div>
+            </div>
+        `;
+    }
 }

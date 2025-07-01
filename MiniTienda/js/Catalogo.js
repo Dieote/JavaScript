@@ -50,22 +50,6 @@ function renderizarCatalogo(catalogo) {
     contenedor.innerHTML = '';
 
     catalogo.obtenerTodos().forEach(producto => {
-         console.log(producto);
-        const div = document.createElement('div');
-        div.className = 'col-md-4 mb-4';
-
-        div.innerHTML = `
-      <div class="card shadow-sm">
-        <img src="${producto._img}" class="card-img-top producto-img" alt="${producto._nombre}">
-        <div class="card-body">
-          <h5 class="card-title">${producto._nombre}</h5>
-          <p class="card-text">${producto._marca} - Talla: ${producto._talla}</p>
-          <p class="card-text fw-bold">$${producto._precio}</p>
-        <button class="btn btn-primary btn-sm agregar-carrito" data-id="${producto._id}">Agregar al carrito</button>
-
-        </div>
-      </div>
-    `;
-        contenedor.appendChild(div);
+         contenedor.innerHTML += producto.generarHTML();
     });
 }

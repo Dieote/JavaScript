@@ -10,15 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     tienda.mostrarCarritoEnModal();
   });
 
-  const abrirCarrito = document.getElementById('lista-carrito')
-  if (abrirCarrito) {
+const abrirCarrito = document.getElementById('lista-carrito');
+if (abrirCarrito) {
   abrirCarrito.addEventListener('click', () => {
     tienda.mostrarCarritoEnModal();
-    modalOn.show();
-
-    const cerrarCarrito = document.getElementById('modalCarrito');
-const modalOff = bootstrap.Modal.getInstance(cerrarCarrito) || new bootstrap.Modal(cerrarCarrito);
-modalOff.hide();
+    const modal = document.getElementById('modalCarrito');
+    const modalBootstrap = new bootstrap.Modal(modal);
+    modalBootstrap.show();
   });
 }
 
@@ -28,8 +26,77 @@ modalOff.hide();
       tienda.agregarAlCarrito(id);
     }
   });
+
+
+const pedidosGuardados = JSON.parse(localStorage.getItem('pedidos')) || [];
+  const pedidosRealizados = pedidosGuardados.map(p => new Pedido(p.id, p.direccion, p.productos));
+  renderizarPedidos(pedidosRealizados);
+
+  document.getElementById('finalizar-compra')?.addEventListener('click', () => {
+    if (tienda.carrito.length === 0) {
+      alert('Tu carrito está vacío 🛒');
+      return;
+    }
+
+    const direccion = prompt('📍 Ingrese su dirección de entrega:');
+    if (!direccion) return "🚫 Dirección no válida";
+
+    const productosPedido = tienda.carrito.map(prod => ({
+      nombre: prod.nombre,
+      marca: prod.marca,
+      talla: prod.talla,
+      precio: prod.precio
+    }));
+
+    const nuevoPedido = new Pedido(
+      Date.now(),
+      direccion,
+      productosPedido
+    );
+
+    pedidosRealizados.push(nuevoPedido);
+    localStorage.setItem('pedidos', JSON.stringify(pedidosRealizados));
+    renderizarPedidos(pedidosRealizados);
+
+    tienda.vaciarCarrito(); 
+    tienda.actualizarContadorCarrito();
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modalCarrito'));
+    modal.hide();
+
+    alert('✅ Pedido registrado con éxito');
+  });
+
+  renderizarPedidos(pedidosRealizados);
 });
-    
+
+ /*  function renderizarPedidos(pedidos) {
+    const lista = document.getElementById('lista-pedidos');
+    lista.innerHTML = '';
+
+    pedidos.forEach((pedido) => {
+      const productosHTML = pedido.productos.map(prod => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${prod.nombre} (${prod.talla}) - ${prod.marca}   <span class="badge bg-primary rounded-pill">${prod.precio.toFixed(2)}€</span>
+        </li>
+      `).join('');
+
+      lista.innerHTML += `
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Pedido #${pedido.id}</h5>
+            <p class="card-text">Dirección: ${pedido.direccion}</p>
+            <p class="card-text">Total: ${pedido.total.toFixed(2)}€</p>
+            <h6 class="card-subtitle mb-2 text-muted">Productos:</h6>
+            <ul class="list-group">
+              ${productosHTML}
+            </ul>
+          </div>
+        </div>
+      `;
+    });
+  } */
+
   function configurarFiltros(tienda) {
     const buscador = document.getElementById('buscador-nombre');
     const selectTalla = document.getElementById('filtro-talla');
@@ -47,16 +114,6 @@ modalOff.hide();
       tienda.filtros.marca = selectMarca.value;
       tienda.renderizarCatalogoFiltrado();
     });
-    const listaCarrito = document.getElementById('lista-carrito');
-    if (listaCarrito) {
-      listaCarrito.addEventListener('click', (e) => {
-        if (e.target === listaCarrito) {
-          tienda.mostrarCarritoEnModal();
-          const modal = new bootstrap.Modal(document.getElementById('modalCarrito'));
-          modal.show();
-        }
-      });
     }
-  }
+
     
-  

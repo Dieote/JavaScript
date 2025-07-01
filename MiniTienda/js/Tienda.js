@@ -147,5 +147,10 @@ class Tienda {
     contador.textContent = this.carrito.length;
   }
 
+  vaciarCarrito() {
+    this.carrito = [];
+    this.guardarCarrito();
+    this.actualizarContadorCarrito();
+  }
 
 }
