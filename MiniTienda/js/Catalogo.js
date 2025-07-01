@@ -14,8 +14,8 @@ class Catalogo {
         ));
     }
 
-    async cargarInfoJSON(callback){
-      try {
+    async cargarInfoJSON(callback) {
+        try {
             const res = await fetch('data/productos.json');
             const data = await res.json();
             this.cargarDesdeJSON(data);
@@ -24,16 +24,16 @@ class Catalogo {
             console.error('Error al cargar JSON:', error);
         }
     }
-/* 
-    guardarLocalStoraga() {
-        localStorage.setItem('catalogo', JSON.stringify(this.producto.map(p => p.toJSON())));
-    }
-    cargarDesdeLocalStorage() {
-        const datos = localStorage.getItem('catalogo');
-        if (datos) {
-            this.cargarDesdeJSON(JSON.parse(datos));
+    /* 
+        guardarLocalStoraga() {
+            localStorage.setItem('catalogo', JSON.stringify(this.producto.map(p => p.toJSON())));
         }
-    } */
+        cargarDesdeLocalStorage() {
+            const datos = localStorage.getItem('catalogo');
+            if (datos) {
+                this.cargarDesdeJSON(JSON.parse(datos));
+            }
+        } */
 
     obtenerTodos() {
         return this.productos;
@@ -42,24 +42,30 @@ class Catalogo {
 }
 
 function renderizarCatalogo(catalogo) {
-  const contenedor = document.getElementById('contenedor-productos');
-  contenedor.innerHTML = '';
+    const contenedor = document.getElementById('contenedor-productos');
+    if (!contenedor) {
+    console.error('⚠️ contenedor-productos no encontrado en el DOM');
+    return;
+  }
+    contenedor.innerHTML = '';
 
-  catalogo.obtenerTodos().forEach(producto => {
-    const div = document.createElement('div');
-    div.className = 'col-md-4 mb-4';
+    catalogo.obtenerTodos().forEach(producto => {
+         console.log(producto);
+        const div = document.createElement('div');
+        div.className = 'col-md-4 mb-4';
 
-    div.innerHTML = `
+        div.innerHTML = `
       <div class="card shadow-sm">
-        <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
+        <img src="${producto._img}" class="card-img-top producto-img" alt="${producto._nombre}">
         <div class="card-body">
-          <h5 class="card-title">${producto.nombre}</h5>
-          <p class="card-text">${producto.marca} - Talla: ${producto.talla}</p>
-          <p class="card-text fw-bold">$${producto.precio}</p>
-          <button class="btn btn-primary btn-sm">Agregar al carrito</button>
+          <h5 class="card-title">${producto._nombre}</h5>
+          <p class="card-text">${producto._marca} - Talla: ${producto._talla}</p>
+          <p class="card-text fw-bold">$${producto._precio}</p>
+        <button class="btn btn-primary btn-sm agregar-carrito" data-id="${producto._id}">Agregar al carrito</button>
+
         </div>
       </div>
     `;
-    contenedor.appendChild(div);
-  });
+        contenedor.appendChild(div);
+    });
 }
