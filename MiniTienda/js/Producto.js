@@ -49,19 +49,20 @@ class Producto {
     }
 
     toJSON() {
-    return {
-      id: this.id,
-      nombre: this.nombre,
-      marca: this.marca,
-      precio: this.precio,
-      talla: this.talla,
-      img: this.img
-    };
-  }
-  
+        return {
+            id: this.id,
+            nombre: this.nombre,
+            marca: this.marca,
+            precio: this.precio,
+            talla: this.talla,
+            img: this.img
+        };
+    }
+
     toString() {
         return this.mostrarInformacion();
     }
+
     generarHTML() {
         return `
         <div class="col-md-4 mb-4">
