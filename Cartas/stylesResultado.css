@@ -1,0 +1,28 @@
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      padding: 40px;
+    }
+    h2 {
+      text-align: center;
+    }
+    .result-section {
+      margin-bottom: 30px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .reiniciar-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #343a40;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .reiniciar-btn:hover {
+      background-color: #495057;
+    }

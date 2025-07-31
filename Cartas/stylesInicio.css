@@ -1,0 +1,21 @@
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #03034f, #dc3545);
+    }
+    .start-button {
+      font-size: 6rem;
+      padding: 1rem 2rem;
+      background-color: #fca063;
+      color: #000000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .start-button:hover {
+      background-color: #495057;
+    }

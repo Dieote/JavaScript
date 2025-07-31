@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartas de Preguntas</title>
+  <link rel="stylesheet" href="stylesBaraja.css">
+</head>
+<body>
+   <div class="col">
+    <button class="ok-button" onclick="nextCard(true)">OK</button>
+  </div>
+
+  <div class="col">
+    <div class="card-center" id="cardContainer"></div>
+  </div>
+
+  <div class="col">
+    <button class="no-button" onclick="nextCard(false)">NO OK</button>
+  </div>
+    <button class="return-button" onclick="window.location.href='inicioApp.html'">Volver</button>
+
+    <div id="contador" class="contador"></div>
+
+
+<script src='baraja.js'></script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+</body>
+</html>
