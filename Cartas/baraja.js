@@ -1,15 +1,21 @@
 let questions = [];
 let currentIndex = 0;
 const cardContainer = document.getElementById('cardContainer');
+const contador = document.getElementById('contador');
 
     function mostrarCartas(index) {
       if(index < questions.length){
+        actualizarContador(index);
         cardContainer.innerHTML = `
+        <div class="contador" id="contador">Pregunta ${index + 1} de ${questions.length}</div>
           <div class="card">${questions[index]}</div>
         `;
           } else {
-          mostrarResultados();
+          mostrarBotonResultado();
       }
+    }
+    function actualizarContador(index) {
+      contador.textContent = `Pregunta ${index + 1} de ${questions.length}`;
     }
 
     function nextCard(isTrue) {
@@ -34,19 +40,16 @@ const cardContainer = document.getElementById('cardContainer');
       mostrarCartas(currentIndex);
     }
 
-function mostrarResultados() {
-  const deAcuerdo = JSON.parse(localStorage.getItem('deAcuerdo')) || [];
-  const noDeAcuerdo = JSON.parse(localStorage.getItem('noDeAcuerdo')) || [];
-
+function mostrarBotonResultados() {
+  contador.textContent = "¡Completaste todas las preguntas!";
   cardContainer.innerHTML = `
-    <div class="card">
-      <h3>Resultados:</h3>
-      <strong>De acuerdo con:</strong>
-      <ul>${deAcuerdo.map(p => `<li>${p}</li>`).join('')}</ul>
-      <strong>No de acuerdo con:</strong>
-      <ul>${noDeAcuerdo.map(p => `<li>${p}</li>`).join('')}</ul>
-    </div>
+    <div class="card">Has terminado la baraja.</div>
+    <button class="ok-button" onclick="window.location.href='resultado.html'" style="margin-top: 20px;">
+      Ver resultados
+    </button>
   `;
+  document.querySelector('.ok-button').style.display = 'none';
+  document.querySelector('.no-button').style.display = 'none';
 }
 
     fetch('data/preguntas.json')
@@ -60,3 +63,7 @@ function mostrarResultados() {
     console.error('Error al cargar preguntas:', error);
     cardContainer.innerHTML = '<div class="card">Error al cargar preguntas.</div>';
   });
+
+  //function cambiarCarta() {
+  //alert('Función para cambiar la carta aún no implementada.');
+  //}

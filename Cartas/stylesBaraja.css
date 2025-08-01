@@ -16,6 +16,7 @@ body {
     }
 
     .card-center {
+      position: relative;
       width: 70%;
       max-width: 400px;
       aspect-ratio: 3/4;
@@ -64,7 +65,7 @@ body {
       font-size: 2rem;
       padding: 1rem 2rem;
       background-color: #343a40;
-      color: #fff;
+      color: #fee4c8;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -75,8 +76,14 @@ body {
     }
 
     .contador {
-      margin-bottom: 20px;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
+      margin-bottom: 0px;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      background: rgba(255,255,255,0.8);
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-size: 1.0rem;
     }
