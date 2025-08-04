@@ -4,23 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Resultados</title>
-  <link rel="stylesheet" href="stylesGeneral.css" />
+  <link rel="stylesheet" href="stylesResultado.css" />
   
 </head>
 <body>
   <h2>Resultados de la Baraja</h2>
-
-  <div class="result-section">
+<div class="resultados-grid">
+  <section class="result-section">
     <h3>De acuerdo con:</h3>
     <ul id="deAcuerdoList"></ul>
-  </div>
+  </section>
 
-  <div class="result-section">
+  <section class="result-section">
     <h3>No de acuerdo con:</h3>
     <ul id="noDeAcuerdoList"></ul>
+  </section>
+</div>
+  <div class="reiniciar-row">
+    <button class="reiniciar-btn" onclick="reiniciar()">Volver a comenzar</button>
   </div>
 
-  <button class="reiniciar-btn" onclick="reiniciar()">Volver a comenzar</button>
-
+  <script src="resultado.js"></script>
 </body>
 </html>

@@ -40,16 +40,20 @@ const contador = document.getElementById('contador');
       mostrarCartas(currentIndex);
     }
 
-function mostrarBotonResultados() {
+function mostrarBotonResultado() {
   contador.textContent = "¡Completaste todas las preguntas!";
   cardContainer.innerHTML = `
     <div class="card">Has terminado la baraja.</div>
-    <button class="ok-button" onclick="window.location.href='resultado.html'" style="margin-top: 20px;">
+    <button class="resultado-button" onclick="window.location.href='resultado.html'" style="margin-top: 20px;">
       Ver resultados
     </button>
   `;
-  document.querySelector('.ok-button').style.display = 'none';
-  document.querySelector('.no-button').style.display = 'none';
+  document.querySelectorAll('.ok-button').forEach(btn => {
+    btn.style.display = 'none';
+  });
+  document.querySelectorAll('.no-button').forEach(btn => {
+    btn.style.display = 'none';
+  });
 }
 
     fetch('data/preguntas.json')

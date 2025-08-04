@@ -71,7 +71,7 @@ body {
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .start-button:hover {
+    .return-button:hover {
       background-color: #495057;
     }
 

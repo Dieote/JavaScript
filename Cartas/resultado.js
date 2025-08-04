@@ -1,3 +1,4 @@
+    window.onload = function() {
     const deAcuerdo = JSON.parse(localStorage.getItem('deAcuerdo')) || [];
     const noDeAcuerdo = JSON.parse(localStorage.getItem('noDeAcuerdo')) || [];
 
@@ -15,6 +16,7 @@
       li.textContent = p;
       noDeAcuerdoList.appendChild(li);
     });
+  };
 
     function reiniciar() {
       localStorage.removeItem('deAcuerdo');
