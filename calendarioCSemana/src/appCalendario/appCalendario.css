@@ -1,0 +1,72 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fdfdfd;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  text-align: center;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #dfe9f3;
+  padding: 12px 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.top-bar h1 {
+  font-size: 1.5rem;
+  color: #4a4a4a;
+}
+
+.top-bar button {
+  background: #b8c6db;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.top-bar button:hover {
+  background: #a0b4d4;
+}
+
+.calendar-container {
+  margin: 20px auto;
+  max-width: 90%;
+  overflow-x: auto;
+}
+
+.calendar {
+  border-collapse: collapse;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.calendar th, .calendar td {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.calendar th {
+  background: #f3f6fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.week-number {
+  background: #eef2f7;
+  font-weight: bold;
+  color: #555;
+}

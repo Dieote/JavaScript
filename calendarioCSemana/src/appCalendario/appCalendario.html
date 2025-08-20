@@ -1,0 +1,29 @@
+<div class="app-container">
+  <header class="top-bar">
+    <h1>Calendario 2025</h1>
+    <button (click)="toggleCalendar()">Mostrar/Ocultar</button>
+  </header>
+
+  <div *ngIf="showCalendar" class="calendar-container">
+    <table class="calendar">
+      <thead>
+        <tr>
+          <th>Semana</th>
+          <th>Lunes</th>
+          <th>Martes</th>
+          <th>Miércoles</th>
+          <th>Jueves</th>
+          <th>Viernes</th>
+          <th>Sábado</th>
+          <th>Domingo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let week of weeks">
+          <td class="week-number">{{ week.number }}</td>
+          <td *ngFor="let day of week.days">{{ day || '' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
