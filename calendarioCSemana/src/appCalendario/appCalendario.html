@@ -1,8 +1,20 @@
 <div class="app-container">
   <header class="top-bar">
-    <h1>Calendario 2025</h1>
+    <h1>Calendario</h1>
+     <div class="actions">
+      <button (click)="prevYear()">⏮ Año</button>
+      <button (click)="prevMonth()">◀ Mes</button>
+      <button (click)="goToday()">Ir a Hoy</button>
+      <button (click)="nextMonth()">Mes ▶</button>
+      <button (click)="nextYear()">Año ⏭</button>
+    </div>
     <button (click)="toggleCalendar()">Mostrar/Ocultar</button>
   </header>
+  
+  <div class="month-header">
+    <h2>{{ monthNames[currentMonth] }} {{ currentYear }}</h2>
+    <button class="top-bar" (click)="searchByWeek()">Buscar por Nº de semana</button>
+  </div>
 
   <div *ngIf="showCalendar" class="calendar-container">
     <table class="calendar">
@@ -19,10 +31,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let week of weeks">
-          <td class="week-number">{{ week.number }}</td>
-          <td *ngFor="let day of week.days">{{ day || '' }}</td>
-        </tr>
+        @for (week of weeks; track week.number) {
+          <tr>
+            <td class="week-number">{{ week.number }}</td>
+            @for (day of week.days; track day) {
+              <td [class.today]="isToday(day)">{{ day || '' }}</td>
+            }
+          </tr>
+        }
       </tbody>
     </table>
   </div>
