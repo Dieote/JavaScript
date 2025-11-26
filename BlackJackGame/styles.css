@@ -1,0 +1,153 @@
+/* ===== Estilos Generales ===== */
+body {
+    font-family: Verdana, sans-serif;
+    background-color: #faefe9;
+    color: #3b0a0a;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.app {
+    width: 90%;
+    max-width: 900px;
+    text-align: center;
+    background-color: #fff5f2;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(59, 10, 10, 0.2);
+    margin: 30px 0;
+    padding: 20px;
+}
+
+.header h1 {
+    color: #7a1f1f;
+    margin-bottom: 40px;
+}
+
+.header .jugador-name {
+    font-weight: bold;
+    color: #5a0e0e;
+}
+
+/*  mesa  */
+.table-area {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.manoDeLaBanca,
+.manoDelJugador {
+    background-color: #ffeae3;
+    border: 3px solid #7a1f1f;
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.card {
+    background-color: #fff;
+    border: 2px solid #7a1f1f;
+    border-radius: 10px;
+    padding: 10px;
+    width: 50px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #7a1f1f;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+}
+
+.score {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #5a0e0e;
+}
+
+/* ===== Botones  */
+.controles {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+button {
+    background-color: #7a1f1f;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: #5a0e0e;
+}
+
+button:disabled {
+    background-color: #d4a7a7;
+    cursor: not-allowed;
+}
+
+button.ghost {
+    background-color: transparent;
+    color: #7a1f1f;
+    border: 2px solid #7a1f1f;
+}
+
+button.ghost:hover {
+    background-color: #7a1f1f;
+    color: #fff;
+}
+
+/*  Tabla de Información ==== */
+.info-table {
+    margin-top: 60px;
+}
+
+.info-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.info-table th,
+.info-table td {
+    border: 1px solid #7a1f1f;
+    padding: 8px;
+    text-align: center;
+}
+
+.info-table th {
+    background-color: #7a1f1f;
+    color: #fff;
+}
+
+.info-table td {
+    background-color: #fff5f2;
+}
+
+/*  Footer */
+.footer {
+    margin-top: 60px;
+    color: #7a1f1f;
+    font-size: 0.9em;
+}
