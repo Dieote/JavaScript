@@ -53,7 +53,7 @@ function comenzarTurnoJugador() {
 
 botonPedir.onclick = () => {
     juego.botonPedir();
-    vista.actualizarVista(juego);
+    vista.actualizarVistaJugador(juego);
 
     if (juego.jugador.puntos > 21) {
         finalizarJuego('La banca gana! TE PASASTE');

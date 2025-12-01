@@ -17,7 +17,7 @@ bancaStatus: document.querySelector('#bancaStatus'),
 userStatus: document.querySelector('#userStatus'),
 userName: document.querySelector('#userName'),
 
-actualizarVista(juego){
+/* actualizarVista(juego){
         this.bancaCartasDiv.innerHTML = juego.banca.cartas.map(c =>
             `<div class='card'>${c.valor}${c.palo}</div>`).join('');
 
@@ -31,5 +31,25 @@ actualizarVista(juego){
 
         this.bancaTotalCards.textContent = juego.banca.cartas.length;
         this.userTotalCards.textContent = juego.jugador.cartas.length;
+} */
+
+actualizarVistaBanca(juego){
+    this.bancaCartasDiv.innerHTML = juego.banca.cartas.map(c =>
+        `<div class='card'>${c.valor}${c.palo}</div>`).join('');
+    this.bancaPuntosSpan.textContent = juego.banca.puntos;
+    this.bancaPoints.textContent = juego.banca.puntos;
+    this.bancaTotalCards.textContent = juego.banca.cartas.length;
+    },
+actualizarVistaJugador(juego) {
+    this.jugadorCartasDiv.innerHTML = juego.jugador.cartas.map(c =>
+        `<div class='card'>${c.valor}${c.palo}</div>`).join('');
+    this.jugadorPuntosSpan.textContent = juego.jugador.puntos;
+    this.userPoints.textContent = juego.jugador.puntos;
+    this.userTotalCards.textContent = juego.jugador.cartas.length;
+    },
+actualizarVista(juego) {
+    this.actualizarVistaBanca(juego);
+    this.actualizarVistaJugador(juego);
 }
+
 };

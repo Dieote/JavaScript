@@ -10,17 +10,19 @@ class Juego {
         this.mazo.crearMazo();
     }
 
-    juegaLaBanca(sePlanta, sigueRobando) {
+    juegaLaBanca(bancaFin, comenzarTurnoJugador) {
         let turnoBanca = () => {
             this.banca.recibirCarta(this.mazo.robarCarta());
 
-    if(this.banca.puntos >= 21) {
-        sePlanta("banca-se-paso");
+    vista.actualizarVistaBanca(this);
+
+    if(this.banca.puntos > 21) {
+        bancaFin("banca-se-paso");
         return;
     }
 
     if (this.banca.puntos >= 17) {
-        sigueRobando();
+        comenzarTurnoJugador();
         return;
     }
         setTimeout(turnoBanca, 1000);
@@ -33,7 +35,7 @@ class Juego {
     }
 
     botonPlantarse() {
-        decidirGanador();
+        return this.decidirGanador();
     }
 
     decidirGanador() {

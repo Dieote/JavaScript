@@ -16,7 +16,7 @@ class Jugador {
 
         for (let carta of this.cartas) {
             if(carta.valor === 'A') total += 1;
-            else if (['J', 'Q', 'K'].includes(carta.valor)) total += 10;
+            else if (['J', 'Q', 'K'].includes(carta.valor)) total += 11;
             else total += parseInt(carta.valor);
         }
 

@@ -15,9 +15,12 @@ class Mazo {
             this.cartas.push({ valor, palo });
         }
         }
-    }
+    /* }
     getCartasMix() {
-        return this.cartas = _.shuffle(this.cartas);
+        return this.cartas = _.shuffle(this.cartas); */
+
+        this.cartas.sort(() => Math.random() - 0.5);
+        return this.cartas;
     }
 
     robarCarta() {
