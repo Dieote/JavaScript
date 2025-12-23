@@ -6,7 +6,7 @@ Utiliza operadores lógicos para validar y muestra mensajes apropiados con Sweet
 
 let password = prompt("Introduce una contraseña:");
 
-if (password === null) {    
+if (password === null || password.trim() === "") {    //trim remueve los espacios en blanco al inicio y al final
     Swal.fire({
         title: "Operación cancelada",
         text: "No se ha introducido ninguna contraseña.",
@@ -29,14 +29,18 @@ if (password === null) {
             text: "La contraseña cumple con todos los requisitos.",
             icon: "success"
         });
+        document.getElementById("ej3").innerHTML = 
+        "<h3>Contraseña ingresada correctamente</h3>";
+
     } else {
         Swal.fire({
             title: "Contraseña inválida",
             html: errores.join("<br>"),
             icon: "error"
         });
+    
+        document.getElementById("ej3").innerHTML =
+        "<h3>La contraseña NO cumple los requisitos</h3>";
+        
     }   
-
-    document.getElementById("ej3").innerHTML = 
-        '<h3>Password ingresada -></h3>' + password;
 }
