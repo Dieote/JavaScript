@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendario</title>
+  <link rel="stylesheet" href="calendario.css">
+  <link rel="stylesheet" href="pdfVisor.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="top-bar">
+      <h1>Calendario</h1>
+      <div class="actions">
+        <button id="prevYear">⏮ Año</button>
+        <button id="prevMonth">◀ Mes</button>
+        <button id="irAHoy">Ir a Hoy</button>
+        <button id="nextMonth">Mes ▶</button>
+        <button id="nextYear">Año ⏭</button>
+      </div>
+      <button id="toggleCalendar">Mostrar/Ocultar</button>
+    </header>
+
+    <div class="month-header">
+      <h2 id="monthYear"></h2>
+      <button id="buscarSemana">Buscar por Nº de semana</button>
+    </div>
+
+    <div class="calendar-container" id="calendarContainer">
+      <table class="calendar" id="calendarTable">
+        <thead>
+          <tr>
+            <th>Semana</th>
+            <th>Lunes</th>
+            <th>Martes</th>
+            <th>Miércoles</th>
+            <th>Jueves</th>
+            <th>Viernes</th>
+            <th>Sábado</th>
+            <th>Domingo</th>
+          </tr>
+        </thead>
+        <tbody id="calendarBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+    <script src="calendario.js"></script>
+
+</body>
+</html>

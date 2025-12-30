@@ -1,0 +1,131 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fdf6f0;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  text-align: center;
+  padding: 25px;
+}
+
+/* TOPBAR */
+.top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: #cde7f0;
+  padding: 16px 24px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.top-bar h1 {
+  font-size: 2.5rem;
+  color: #4a4a4a;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.actions button, .top-bar button, .month-header button {
+  background: #f7d6c1;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.1s;
+}
+
+.actions button:hover, .top-bar button:hover, .month-header button:hover {
+  background: #f2bfa3; /* naranja más intenso pastel */
+  transform: scale(1.05);
+}
+
+.month-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.month-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #555;
+}
+
+/* CALENDARIO */
+.calendar-container {
+  margin: 20px auto;
+  max-width: 95%;
+  overflow-x: auto;
+}
+
+.calendar {
+  border-collapse: collapse;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  font-size: 1.1rem;
+}
+
+.calendar th, .calendar td {
+  border: 1px solid #e0e0e0;
+  padding: 12px 0;
+  text-align: center;
+}
+
+.calendar th {
+  background: #d0f0c0;
+  font-weight: 600;
+  color: #333;
+}
+
+.week-number {
+  background: #f0d0f0;
+  font-weight: bold;
+  color: #555;
+}
+
+.calendar td {
+  transition: background 0.3s, transform 0.1s;
+}
+
+.calendar td:hover {
+  background: #ffeecf;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.today {
+  background: #a0d6b4;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .calendar th, .calendar td {
+    padding: 8px 0;
+    font-size: 0.9rem;
+  }
+  .top-bar h1 { font-size: 2rem; }
+  .month-header h2 { font-size: 1.5rem; }
+  .actions button, .top-bar button, .month-header button {
+    padding: 8px 12px;
+    font-size: 1rem;
+  }
+}
