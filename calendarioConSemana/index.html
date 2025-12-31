@@ -45,9 +45,48 @@
     </div>
   </div>
 
+<div class="pdf-section">
+<section class="pdf-viewer">
+
+  <header class="pdf-header">
+    <h2>Visor de documentos</h2>
+
+    <div class="pdf-loader">
+      <input type="file" id="pdfInput" accept=".pdf">
+    </div>
+  </header>
+
+  <!-- Barra de herramientas -->
+  <div class="pdf-toolbar">
+    <button id="zoomOut">−</button>
+    <span class="zoom-level">100%</span>
+    <button id="zoomIn">+</button>
+
+    <div class="separator"></div>
+
+    <button id="prevPage">◀</button>
+    <span class="page-indicator">Página 1 / 1</span>
+    <button id="nextPage">▶</button>
+  </div>
+
+  <!-- Contenedor del visor -->
+  <div class="pdf-container">
+    <div class="pdf-scroll">
+
+      <!-- Aquí pdf.js insertará los canvas -->
+      <canvas id="pdfCanvas"></canvas>
+
+    </div>
+  </div>
+
+</section>
+
+
 </div>
 
+    <script src="pdfVisor.js"></script>
     <script src="calendario.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 </body>
 </html>
