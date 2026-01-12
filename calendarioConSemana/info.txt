@@ -1,0 +1,70 @@
+🧠 Modelo
+
+1️⃣ Personas (columnas)
+Cada columna es un trabajador
+El nombre está en la cabecera (rotado)
+Esa columna representa todo el año de esa persona
+
+2️⃣ Tiempo (filas)
+Agrupado por:
+    Semana
+    Día (L, M, X, J, V, S, D)
+    Las semanas están numeradas
+    El calendario es semanal, no mensual
+
+3️⃣ Estado(celda)
+Una celda puede indicar el estado de ese trabajador ese día mediante:
+
+    1 → día trabajado
+    0 → ausencia solicitada / vacaciones
+    vacío → no trabaja
+
+Colores (significado)
+
+Amarillo → trabajado (RGB del excel 255 255 153 #FFFF99 )
+Rojo claro → festivo (RGB del excel 244 176 132 #F4B084)
+Celeste → semana libre / fin de semana (RGB del excel 102 255 204 #66FFCC)
+Gris → puente (RGB del excel 191 191 191 #BFBFBF )
+rojoFuerte → VACACIONES (RGB del excel 255 0 0 #FF0000)
+verdeFuerte → VACACIONES (RGB del excel 0 176 80 #00B050)
+
+🎯 Objetivo funcional
+
+Desde calendario HTML:
+    Cargar Excel / PDF / Mostrar calendario
+Detectar automáticamente:
+    nombres
+    semanas
+    días
+    estados
+Permite:
+    seleccionar un trabajador
+    visualizar su calendario
+    mostrar estadísticas:
+    días trabajados
+    festivos
+    vacaciones
+    semanas libres
+
+🧩 estados
+
+Estados posibles
+    TRABAJADO
+    VACACIONES
+    FESTIVO
+    PUENTE
+    LIBRE
+    FIN_DE_SEMANA
+reglas:
+    1 + amarillo → TRABAJADO
+    0 + verde → VACACIONES
+    0 + rojoFuerte → VACACIONES
+    vacío + rojoClaro → FESTIVO
+    vacío + celeste → LIBRE / fin de semana
+
+📊 Estadísticas 
+
+Contar Estado === TRABAJADO
+Contar Estado === FESTIVO
+Agrupar por Semana
+Detectar semanas completas libres
