@@ -43,6 +43,8 @@ function procesarWorkbook(workbook) {
     obtenerEstadoCelda(worksheet, 31, 33); // cELESTE
     obtenerEstadoCelda(worksheet, 228, 33); // verdeFuerte
     obtenerEstadoCelda(worksheet, 375, 33); // rojoFuerte */
+    procesarDiego(worksheet);
+
 }
 
 function detectarTrabajadores(worksheet) {
@@ -68,11 +70,13 @@ function detectarTrabajadores(worksheet) {
   return trabajadores;
 }
 
-function detectarSemanas(worksheet) {
+function detectarSemanas(worksheet, diasPorFila) {
   const COLUMNA_SEMANA = 1; // A
   const FILA_INICIO = 9;
-
+  
   const semanas = [];
+
+  let ultimaSemanaDetectada = null; //con esto evitamos que se repitan las semanas
 
   for (let row = FILA_INICIO; row <= worksheet.rowCount; row++) {
     const cell = worksheet.getRow(row).getCell(COLUMNA_SEMANA);
@@ -81,15 +85,28 @@ function detectarSemanas(worksheet) {
     if (typeof valor === 'string' && valor.toLowerCase().includes('semana')) {
       const numero = parseInt(valor.replace(/\D/g, ''), 10); // remover todo menos dígitos
 
+      if(numero === ultimaSemanaDetectada) continue; //con esto evitamos que se repitan las semanas
+
+      let filaLunes = null;
+      for (let r = row; r <= worksheet.rowCount; r++) {
+          if (diasPorFila[r] === 'L') {
+            filaLunes = r;
+            break;
+          }
+        }
+        
+      if (!filaLunes) continue;
+
       semanas.push({
         semana: numero,
-        filaInicio: row,
-        filaFin: row + 6
+        filaInicio: filaLunes,
+        filaFin: filaLunes + 6 
       });
+
+      ultimaSemanaDetectada = numero; //con esto evitamos que se repitan las semanas
     }
   }
-
-  console.log('Semanas detectadas:', semanas);
+  //console.log('Semanas detectadas:', semanas);
   return semanas;
 }
 
@@ -108,12 +125,9 @@ function detectarDias(worksheet) {
     }
   }
 
-  console.log('Días detectados por fila:', diasPorFila);
+  //console.log('Días detectados por fila:', diasPorFila);
   return diasPorFila;
 }
-
-//subir a git hasta aca
-//function detectarTurnos(worksheet) {}
 
 //Logica colores + valores
 
@@ -210,8 +224,60 @@ function clasificarEstado(valor, colorInfo) {
 function obtenerEstadoCelda(worksheet, fila, col) {
     const { valor, colorInfo } = leerCelda(worksheet, fila, col);
     const estado =  clasificarEstado(valor, colorInfo);
-    console.log( `CELDA fila ${fila}, col ${col} → ESTADO: ${estado}`,
-    { valor, colorInfo });
+  /*   console.log( `CELDA fila ${fila}, col ${col} → ESTADO: ${estado}`,
+    { valor, colorInfo }); */
     
     return estado;
+}
+
+//buscar por semana /prueba
+/* function obtenerSemanaTrabajador(worksheet, trabajador, semana, diasPorFila) {
+  const resultados = [];
+  const columna = trabajador.columna;
+  for (let fila = semana.filaInicio; fila <= semana.filaFin; fila++) {
+    const dia = diasPorFila[fila];
+    if(!dia) continue; // saltar si no hay dia
+    const estado = obtenerEstadoCelda(worksheet, fila, columna);
+    resultados.push({ fila, col: columna, dia, estado });
+  }
+  return resultados;
+} */
+
+function obtenerRangoTrabajador(worksheet, trabajador, filaInicio, filaFin, diasPorFila) {
+  const resultados = [];
+  const col = trabajador.columna;
+
+  for (let fila = filaInicio; fila <= filaFin; fila++) {
+    const dia = diasPorFila[fila];
+    if (!dia) continue;
+
+    const estado = obtenerEstadoCelda(worksheet, fila, col);
+
+    resultados.push({ fila, col, dia, estado });
+  }
+
+  return resultados;
+}
+
+function procesarDiego(worksheet) {
+    const trabajadores = detectarTrabajadores(worksheet);
+    const dias = detectarDias(worksheet);
+    const semanas = detectarSemanas(worksheet, dias);
+
+    const diego = trabajadores.find(t => t.nombre.toLowerCase() === 'diego gomez');
+
+    const calendarioDiego = [];
+
+    for (const semana of semanas) {
+      const rango = obtenerRangoTrabajador(
+        worksheet,
+        diego,
+        semana.filaInicio,
+        semana.filaFin,
+        dias
+      );
+      calendarioDiego.push({ semana: semana.semana, rango });
+    }
+
+    console.log('Calendario Diego:', calendarioDiego);
 }
