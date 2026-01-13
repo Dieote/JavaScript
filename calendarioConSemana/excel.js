@@ -42,8 +42,9 @@ function procesarWorkbook(workbook) {
     obtenerEstadoCelda(worksheet, 24, 33); // ROJO CLARO
     obtenerEstadoCelda(worksheet, 31, 33); // cELESTE
     obtenerEstadoCelda(worksheet, 228, 33); // verdeFuerte
-    obtenerEstadoCelda(worksheet, 375, 33); // rojoFuerte */
-    procesarDiego(worksheet);
+    obtenerEstadoCelda(worksheet, 375, 33); // rojoFuerte 
+    procesarDiego(worksheet);*/
+    procesarTrabajador(worksheet, 'David Sánchez');
 
 }
 
@@ -200,7 +201,8 @@ function clasificarEstado(valor, colorInfo) {
       rojoFuerte: { r: 255, g: 0, b: 0 },
       celeste: { r: 102, g: 255, b: 204 },
       //gris: { r: 191, g: 191, b: 191 },
-      verdeFuerte: { r: 0, g: 176, b: 80 }
+      verdeFuerte: { r: 0, g: 176, b: 80 },
+      naranja: { r: 255, g: 192, b: 0 }
     }; 
     
     function colorMatch(c1, c2) {
@@ -216,6 +218,7 @@ function clasificarEstado(valor, colorInfo) {
       //if (colorMatch(colorInfo, colores.gris)) return "PUENTE";
       if (colorMatch(rgb, colores.rojoFuerte)) return "VACACIONES";
       if (colorMatch(rgb, colores.verdeFuerte)) return "VACACIONES";
+      if (colorMatch(rgb, colores.naranja)) return "VACACIONES";
       return "DESCONOCIDO";
     }    
     return "DESCONOCIDO";
@@ -259,7 +262,7 @@ function obtenerRangoTrabajador(worksheet, trabajador, filaInicio, filaFin, dias
   return resultados;
 }
 
-function procesarDiego(worksheet) {
+/* function procesarDiego(worksheet) {
     const trabajadores = detectarTrabajadores(worksheet);
     const dias = detectarDias(worksheet);
     const semanas = detectarSemanas(worksheet, dias);
@@ -280,4 +283,39 @@ function procesarDiego(worksheet) {
     }
 
     console.log('Calendario Diego:', calendarioDiego);
+} */
+
+    function procesarTrabajador(worksheet, nombreBuscado) {
+  const trabajadores = detectarTrabajadores(worksheet);
+  const dias = detectarDias(worksheet);
+  const semanas = detectarSemanas(worksheet, dias);
+
+  const trabajador = trabajadores.find(t =>
+    t.nombre.toLowerCase() === nombreBuscado.toLowerCase()
+  );
+
+  if (!trabajador) {
+    console.warn('No se encontró el trabajador:', nombreBuscado);
+    return;
+  }
+
+  const calendario = [];
+
+  for (const semana of semanas) {
+    const rango = obtenerRangoTrabajador(
+      worksheet,
+      trabajador,
+      semana.filaInicio,
+      semana.filaFin,
+      dias
+    );
+
+    calendario.push({
+      semana: semana.semana,
+      rango
+    });
+  }
+
+  console.log(`Calendario ${trabajador.nombre}:`, calendario);
+  return calendario;
 }

@@ -27,6 +27,7 @@ Celeste → semana libre / fin de semana (RGB del excel 102 255 204 #66FFCC)
 Gris → puente (RGB del excel 191 191 191 #BFBFBF )
 rojoFuerte → VACACIONES (RGB del excel 255 0 0 #FF0000)
 verdeFuerte → VACACIONES (RGB del excel 0 176 80 #00B050)
+naranja → VACACIONES {RGB del excel 255 192 0 #FFC000}
 
 🎯 Objetivo funcional
 
@@ -54,11 +55,11 @@ Estados posibles
     FESTIVO
     PUENTE
     LIBRE
-    FIN_DE_SEMANA
+
 reglas:
     1 + amarillo → TRABAJADO
     0 + verde → VACACIONES
-    0 + rojoFuerte → VACACIONES
+    0 + rojoFuerte/ verdeFuerte / naranja → VACACIONES
     vacío + rojoClaro → FESTIVO
     vacío + celeste → LIBRE / fin de semana
 
