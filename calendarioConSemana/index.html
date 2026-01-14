@@ -8,6 +8,17 @@
   <link rel="stylesheet" href="pdfVisor.css">
 </head>
 <body>
+
+  <header class="institucional-header">
+    <div class="brand">
+      <img src="assets/logoOSI.png" alt="Food Safety Always" class="brand-logo">
+      <div class="brand-text">
+        <h1>Food Safety Always</h1>
+        <p>Look out, Speak up, Act now.</p>
+      </div>
+    </div>
+  </header>
+
   <div class="app-container">
     <header class="top-bar">
       <h1>Calendario</h1>
@@ -25,6 +36,11 @@
       <h2 id="monthYear"></h2>
       <button id="buscarSemana">Buscar por Nº de semana</button>
       <input type="file" id="excelInput" accept=".xlsx" />
+      <select class="trabajador-select">
+        <option value="">Seleccionar trabajador</option>
+        <option>Diego Gómez</option>
+        <option>Jesús Alfonso</option>
+      </select>
     </div>
 
     <div class="calendar-container" id="calendarContainer">
@@ -92,4 +108,50 @@
     <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
 
 </body>
+<footer class="footer-institucional">
+  <div class="footer-grid">
+    
+    <div class="footer-column">
+      <img src="assets/logoOSI.png" alt="Logo Institucional" style="width: 150px; margin-bottom: 15px;">
+      <p style="font-size: 0.85rem; line-height: 1.6; color: #bbb;">
+        Este proyecto esta pensado para ayudar a facilitar la gestión del calendario laboral de esta empresa en concreto.
+    </div>
+
+    <div class="footer-column">
+      <h4>Navegación</h4>
+      <ul class="footer-links">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Ir a OSI FOOD</a></li>
+        <li><a href="#">Ir a ATOSS</a></li>
+        <li><a href="#">Ver en maps</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h4>Redes</h4>
+      <ul class="social-links">
+        <li><a href="#"><img src="/assets/instagram.png" alt="Instagram">Instagram</a></li>
+        <li><a href="#"><img src="/assets/github.png" alt="GitHub">Git-Hub</a></li>
+        <li><a href="#"><img src="/assets/linkedin.png" alt="LinkedIn">LinkedIn</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna 4: Contacto Directo -->
+    <div class="footer-column">
+      <h4>Contacto</h4>
+      <p>
+        📍Diego Gomez Modolo<br>
+        📞 +34 1234-5678<br>
+        ✉️ diegosMail@gmail.com
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Barra Inferior de Copyright -->
+  <div style="text-align: center; padding-top: 20px; font-size: 0.8rem; color: #777;">
+    <p>&copy; 2026 Todos los derechos reservados para Diego Gomez Modolo.</p>
+  </div>
+</footer>
+
 </html>
