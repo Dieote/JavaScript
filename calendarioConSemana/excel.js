@@ -1,5 +1,7 @@
 const input = document.getElementById('excelInput');
 
+let trabajadorActual = null;
+
 input.addEventListener('change', manejarArchivo);
 
 async function manejarArchivo(event) {
@@ -33,19 +35,7 @@ function procesarWorkbook(workbook) {
     const totalColumnas = worksheet.columnCount;
     
     console.log(`Total de filas: ${totalFilas} Total de columnas: ${totalColumnas}`);
-    
-    //detectarTrabajadores(worksheet);
-    //detectarSemanas(worksheet);
-    //detectarDias(worksheet);
-
-    /* obtenerEstadoCelda(worksheet, 23, 33); // GRIS
-    obtenerEstadoCelda(worksheet, 24, 33); // ROJO CLARO
-    obtenerEstadoCelda(worksheet, 31, 33); // cELESTE
-    obtenerEstadoCelda(worksheet, 228, 33); // verdeFuerte
-    obtenerEstadoCelda(worksheet, 375, 33); // rojoFuerte 
-    procesarDiego(worksheet);*/
-    procesarTrabajador(worksheet, 'David Sánchez');
-
+    cargarSelectTrabajadores(worksheet);
 }
 
 function detectarTrabajadores(worksheet) {
@@ -107,7 +97,6 @@ function detectarSemanas(worksheet, diasPorFila) {
       ultimaSemanaDetectada = numero; //con esto evitamos que se repitan las semanas
     }
   }
-  //console.log('Semanas detectadas:', semanas);
   return semanas;
 }
 
@@ -126,7 +115,6 @@ function detectarDias(worksheet) {
     }
   }
 
-  //console.log('Días detectados por fila:', diasPorFila);
   return diasPorFila;
 }
 
@@ -148,16 +136,6 @@ function leerCelda(worksheet, fila, col) {
       indexed: fg.indexed ?? null
     };
   }
-
-  /* console.log(
-    `DEBUG CELDA fila ${fila}, col ${col}`,
-    {
-      valor,
-      fill: cell.fill,
-      colorInfo
-    }
-  ); */
-
     return { valor, colorInfo };
 
 }
@@ -226,25 +204,9 @@ function clasificarEstado(valor, colorInfo) {
 
 function obtenerEstadoCelda(worksheet, fila, col) {
     const { valor, colorInfo } = leerCelda(worksheet, fila, col);
-    const estado =  clasificarEstado(valor, colorInfo);
-  /*   console.log( `CELDA fila ${fila}, col ${col} → ESTADO: ${estado}`,
-    { valor, colorInfo }); */
-    
+    const estado =  clasificarEstado(valor, colorInfo);  
     return estado;
 }
-
-//buscar por semana /prueba
-/* function obtenerSemanaTrabajador(worksheet, trabajador, semana, diasPorFila) {
-  const resultados = [];
-  const columna = trabajador.columna;
-  for (let fila = semana.filaInicio; fila <= semana.filaFin; fila++) {
-    const dia = diasPorFila[fila];
-    if(!dia) continue; // saltar si no hay dia
-    const estado = obtenerEstadoCelda(worksheet, fila, columna);
-    resultados.push({ fila, col: columna, dia, estado });
-  }
-  return resultados;
-} */
 
 function obtenerRangoTrabajador(worksheet, trabajador, filaInicio, filaFin, diasPorFila) {
   const resultados = [];
@@ -262,30 +224,7 @@ function obtenerRangoTrabajador(worksheet, trabajador, filaInicio, filaFin, dias
   return resultados;
 }
 
-/* function procesarDiego(worksheet) {
-    const trabajadores = detectarTrabajadores(worksheet);
-    const dias = detectarDias(worksheet);
-    const semanas = detectarSemanas(worksheet, dias);
-
-    const diego = trabajadores.find(t => t.nombre.toLowerCase() === 'diego gomez');
-
-    const calendarioDiego = [];
-
-    for (const semana of semanas) {
-      const rango = obtenerRangoTrabajador(
-        worksheet,
-        diego,
-        semana.filaInicio,
-        semana.filaFin,
-        dias
-      );
-      calendarioDiego.push({ semana: semana.semana, rango });
-    }
-
-    console.log('Calendario Diego:', calendarioDiego);
-} */
-
-    function procesarTrabajador(worksheet, nombreBuscado) {
+function procesarTrabajador(worksheet, nombreBuscado) {
   const trabajadores = detectarTrabajadores(worksheet);
   const dias = detectarDias(worksheet);
   const semanas = detectarSemanas(worksheet, dias);
@@ -318,4 +257,36 @@ function obtenerRangoTrabajador(worksheet, trabajador, filaInicio, filaFin, dias
 
   console.log(`Calendario ${trabajador.nombre}:`, calendario);
   return calendario;
+}
+
+/*Manejo de eventos*/
+
+document.getElementById('trabajadorSelect')
+  .addEventListener('change', e => {
+    const nombre = e.target.value;
+    if (!nombre) return;
+
+    trabajadorActual = nombre;
+
+    const trabajador = trabajadores.find(
+      t => t.nombre.toLowerCase() === nombre.toLowerCase()
+    );
+
+    if (!trabajador) return;
+
+    calendar.generateCalendar();
+  });
+
+function cargarSelectTrabajadores(worksheet) {
+  const trabajadores = detectarTrabajadores(worksheet);
+  const select = document.getElementById('trabajadorSelect');
+  // Limpiar opciones existentes
+  select.innerHTML = '<option value="">Seleccionar trabajador</option>';
+
+  trabajadores.forEach(trabajador => {
+    const option = document.createElement('option');
+    option.value = trabajador.nombre;
+    option.textContent = trabajador.nombre;
+    select.appendChild(option);
+  });
 }

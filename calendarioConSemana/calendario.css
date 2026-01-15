@@ -159,9 +159,9 @@ body {
 }
 
 .today {
-  background: #a0d6b4;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 15px;
+}
 }
 
 /* RESPONSIVE */
