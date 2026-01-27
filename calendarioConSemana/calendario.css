@@ -162,6 +162,32 @@ body {
   font-weight: bold;
   border-radius: 15px;
 }
+
+/*crenderizar colores en calendario*/
+.estado-trabajado {
+  background: #FFF3A0; 
+}
+
+.estado-vacaciones {
+  background: #FFC000; 
+  color: #333;
+}
+
+.estado-libre {
+  background: #66FFCC; 
+}
+
+.estado-festivo {
+  background: #F4B084;
+}
+
+.estado-puente {
+  background: #BFBFBF;
+}
+
+.estado-desconocido {
+  background: #E0E0E0;
+  color: #666;
 }
 
 /* RESPONSIVE */

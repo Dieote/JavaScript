@@ -2,6 +2,7 @@ const input = document.getElementById('excelInput');
 
 let trabajadorActual = null;
 
+
 input.addEventListener('change', manejarArchivo);
 
 async function manejarArchivo(event) {
@@ -273,7 +274,7 @@ document.getElementById('trabajadorSelect')
     );
 
     if (!trabajador) return;
-
+    
     calendar.generateCalendar();
   });
 
