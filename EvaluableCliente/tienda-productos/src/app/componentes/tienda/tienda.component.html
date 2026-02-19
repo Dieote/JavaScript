@@ -3,8 +3,16 @@
     <h1>Tienda Online</h1>
     <button class="btn-carrito" [class.activo]="totalUnidades > 0" (click)="toggleCarrito()">
        Carrito
+      <span class="badge" *ngIf="totalUnidades > 0">{{ totalUnidades }}</span>
     </button>
   </header>
+
+  <app-filtros
+    [categorias]="categorias"
+    [marcas]="marcas"
+    (filtrosAplicados)="aplicarFiltros($event)"
+    (filtrosLimpiados)="limpiarFiltros()">
+  </app-filtros>
 
   <main class="catalogo">
     <div *ngIf="cargando" class="cargando">
@@ -24,14 +32,20 @@
       <div *ngFor="let producto of productosFiltrados" class="producto">
         <div class="imagen">
           <img [src]="producto.thumbnail" [alt]="producto.title">
+          <span class="descuento" *ngIf="producto.discountPercentage > 0">
+            -{{ producto.discountPercentage }}%
+          </span>
         </div>
 
+        <div class="info">
           <h3>{{ producto.title }}</h3>
           
           <div class="etiquetas">
             <span class="etiqueta">{{ producto.category }}</span>
             <span class="etiqueta">{{ producto.brand }}</span>
+          </div>
 
+          <div class="rating">⭐ {{ producto.rating }}</div>
 
           <p class="precio">€{{ producto.price }}</p>
 

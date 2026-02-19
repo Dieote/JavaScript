@@ -4,6 +4,8 @@ export interface Producto {
   title: string;
   description: string;
   price: number;
+  discountPercentage: number;
+  rating: number;
   stock: number;
   brand: string;
   category: string;
@@ -23,4 +25,8 @@ export interface FiltrosProducto {
   precioMinimo?: number;
   categoria?: string;
   marca?: string;
+}
+
+export interface ItemCarrito extends Producto {
+  cantidad: number;
 }

@@ -1,3 +1,4 @@
+<div class="carrito" [class.abierto]="visible">
   <div class="cabecera">
     <h2>Mi Carrito ({{ totalUnidades }})</h2>
     <button class="cerrar" (click)="cerrarPanel()">✕</button>
@@ -12,11 +13,13 @@
       <div *ngFor="let item of items" class="item">
         <img [src]="item.thumbnail" [alt]="item.title">
         
+        <div class="info">
           <h4>{{ item.title }}</h4>
           <p>€{{ item.price }} × {{ item.cantidad }}</p>
           <p class="subtotal">
             Subtotal: €{{ (item.price * item.cantidad).toFixed(2) }}
           </p>
+        </div>
 
         <button class="eliminar" (click)="eliminarProducto(item.id)">X</button>
       </div>
@@ -30,3 +33,4 @@
     </div>
     <button class="btn-comprar" (click)="comprar()">Comprar</button>
   </div>
+</div>

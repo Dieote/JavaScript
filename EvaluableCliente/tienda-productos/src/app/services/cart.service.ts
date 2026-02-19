@@ -46,6 +46,14 @@ export class CarritoService {
     return total;
   }
 
+  calcularTotalUnidades(): number {
+    let total = 0;
+    for (let item of this.items) {
+      total += item.cantidad;
+    }
+    return total;
+  }
+
   private guardarCarrito(): void {
     localStorage.setItem('carrito', JSON.stringify(this.items));
   }

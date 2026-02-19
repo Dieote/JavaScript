@@ -108,4 +108,8 @@ export class TiendaComponent implements OnInit {
   cerrarCarrito(): void {
     this.carritoVisible = false;
   }
+
+  get totalUnidades(): number {
+    return this.carritoService.calcularTotalUnidades();
+  }
 }

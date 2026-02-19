@@ -7,6 +7,8 @@
       <input
         id="precioMinimo"
         type="number"
+        min="0"
+        placeholder="Ej: 50"
         [(ngModel)]="filtros.precioMinimo">
     </div>
 
@@ -14,6 +16,9 @@
       <label for="categoria">Categoría:</label>
       <select id="categoria" [(ngModel)]="filtros.categoria">
         <option value="">Todas</option>
+        <option *ngFor="let cat of categorias" [value]="cat">
+          {{ cat }}
+        </option>
       </select>
     </div>
 
