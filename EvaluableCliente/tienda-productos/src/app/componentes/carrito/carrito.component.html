@@ -1,0 +1,32 @@
+  <div class="cabecera">
+    <h2>Mi Carrito ({{ totalUnidades }})</h2>
+    <button class="cerrar" (click)="cerrarPanel()">✕</button>
+  </div>
+
+  <div class="contenido">
+    <div *ngIf="items.length === 0" class="vacio">
+      <p>Tu carrito está vacío</p>
+    </div>
+
+    <div *ngIf="items.length > 0" class="lista">
+      <div *ngFor="let item of items" class="item">
+        <img [src]="item.thumbnail" [alt]="item.title">
+        
+          <h4>{{ item.title }}</h4>
+          <p>€{{ item.price }} × {{ item.cantidad }}</p>
+          <p class="subtotal">
+            Subtotal: €{{ (item.price * item.cantidad).toFixed(2) }}
+          </p>
+
+        <button class="eliminar" (click)="eliminarProducto(item.id)">X</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="items.length > 0" class="pie">
+    <div class="total">
+      <span>Total:</span>
+      <span class="precio">€{{ total.toFixed(2) }}</span>
+    </div>
+    <button class="btn-comprar" (click)="comprar()">Comprar</button>
+  </div>

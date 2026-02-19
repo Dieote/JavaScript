@@ -1,0 +1,35 @@
+<section class="panel-filtros">
+  <h2>Filtros de búsqueda</h2>
+
+  <div class="controles">
+    <div class="campo">
+      <label for="precioMinimo">Precio mínimo:</label>
+      <input
+        id="precioMinimo"
+        type="number"
+        [(ngModel)]="filtros.precioMinimo">
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" [(ngModel)]="filtros.categoria">
+        <option value="">Todas</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="marca">Marca:</label>
+      <select id="marca" [(ngModel)]="filtros.marca">
+        <option value="">Todas</option>
+        <option *ngFor="let m of marcas" [value]="m">
+          {{ m }}
+        </option>
+      </select>
+    </div>
+
+    <div class="botones">
+      <button class="btn btn-aplicar" (click)="aplicarFiltros()">Aplicar filtros</button>
+      <button class="btn btn-limpiar" (click)="limpiarFiltros()">Limpiar</button>
+    </div>
+  </div>
+</section>
