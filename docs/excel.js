@@ -118,6 +118,9 @@ function hexCambiaRgb(argb) {
 }
 
 function clasificarEstado(valor, colorInfo) {
+  if (valor === 1 || valor === '1') return 'TRABAJADO';
+  if (valor === 0 || valor === '0') return 'VACACIONES';
+
   if (colorInfo) {
     const { argb, theme, tint } = colorInfo;
 
@@ -153,7 +156,6 @@ function clasificarEstado(valor, colorInfo) {
 
   if (valor === 1 || valor === '1') return 'TRABAJADO';
   if (valor === 0 || valor === '0') return 'VACACIONES';
-
   return 'DESCONOCIDO';
 }
 
@@ -206,6 +208,7 @@ function construirMapaEstados(worksheet, trabajador) {
   const mapa = {};
   let fechaActual = new Date(fechaAncla);
 
+  // Letras de día en orden de avance (L ya está en fechaAncla)
   const ordenDias = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 
   for (let row = filaAncla; row <= FILA_FIN; row++) {
@@ -277,6 +280,9 @@ document.getElementById('trabajadorSelect')
       trabajadorActual = null;
       mapaEstados = {};
       calendar.generateCalendar();
+      if (typeof estadisticas !== 'undefined') {
+        estadisticas.limpiar();
+      }
       return;
     }
 
@@ -292,8 +298,23 @@ document.getElementById('trabajadorSelect')
     mapaEstados = construirMapaEstados(worksheetGlobal, trabajador);
 
     calendar.generateCalendar();
+
+    // Notificar a estadisticas si está disponible
+    if (typeof estadisticas !== 'undefined') {
+      estadisticas.actualizar(nombre);
+    }
   });
 
+// ── API pública: expone el mapa para estadisticas.js ─────────
+function obtenerMapaActual() {
+  return mapaEstados;
+}
+
+function obtenerAñoExcel() {
+  return añoExcel;
+}
+
+// Esta función es llamada por calendar.js en cada celda.
 function obtenerEstadoDia(fecha) {
   if (!trabajadorActual) return null;
 

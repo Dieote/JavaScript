@@ -20,24 +20,56 @@ const calendar = {
       toggleLeyenda.addEventListener('click', () => this.toggleLeyenda());
     }
 
+    const toggleEstadisticas = document.getElementById('toggleEstadisticas');
+    if (toggleEstadisticas) {
+      toggleEstadisticas.addEventListener('click', () => this.toggleEstadisticas());
+    }
+
     this.generateCalendar();
   },
 
   toggleLeyenda() {
     const content = document.getElementById('leyendaContent');
     const btn = document.getElementById('toggleLeyenda');
-    if (content && btn) {
-      const visible = content.style.display !== 'none';
-      content.style.display = visible ? 'none' : 'block';
-      btn.textContent = visible ? 'Mostrar' : 'Ocultar';
+    if (!content || !btn) return;
+    const abriendo = content.style.display === 'none';
+
+    // Cerrar estadísticas si se va a abrir leyenda
+    if (abriendo) {
+      const estContent = document.getElementById('estadisticasContent');
+      const estBtn     = document.getElementById('toggleEstadisticas');
+      if (estContent) estContent.style.display = 'none';
+      if (estBtn)     estBtn.textContent = 'Mostrar';
     }
+
+    content.style.display = abriendo ? 'block' : 'none';
+    btn.textContent        = abriendo ? 'Ocultar' : 'Mostrar';
+  },
+
+  toggleEstadisticas() {
+    const content = document.getElementById('estadisticasContent');
+    const btn     = document.getElementById('toggleEstadisticas');
+    if (!content || !btn) return;
+    const abriendo = content.style.display === 'none';
+
+    // Cerrar leyenda si se va a abrir estadísticas
+    if (abriendo) {
+      const leyContent = document.getElementById('leyendaContent');
+      const leyBtn     = document.getElementById('toggleLeyenda');
+      if (leyContent) leyContent.style.display = 'none';
+      if (leyBtn)     leyBtn.textContent = 'Mostrar';
+    }
+
+    content.style.display = abriendo ? 'block' : 'none';
+    btn.textContent        = abriendo ? 'Ocultar' : 'Mostrar';
   },
 
   toggleVista() {
     this.vistaAnual = !this.vistaAnual;
-    document.getElementById('toggleVista').textContent =
-      this.vistaAnual ? 'Vista Mensual' : 'Vista Anual';
-
+    const btn = document.getElementById('toggleVista');
+    btn.textContent = this.vistaAnual ? 'Vista Mensual' : 'Vista Anual';
+    
+    // Ocultar/mostrar botones de navegación mensual
     const prevMonth = document.getElementById('prevMonth');
     const nextMonth = document.getElementById('nextMonth');
     prevMonth.style.display = this.vistaAnual ? 'none' : 'inline-block';
@@ -47,45 +79,17 @@ const calendar = {
   },
 
   generateCalendar() {
-    this.vistaAnual
-      ? this.generateCalendarioAnual()
-      : this.generateCalendarioMensual();
-  },
-
-  //  aplica el estado a una celda 
-  // Centralizar aquí evita duplicar el switch en las dos vistas.
-  aplicarEstado(cell, fecha, mes) {
-    if (typeof obtenerEstadoDia !== 'function') return;
-
-    const estado = obtenerEstadoDia(fecha);
-    if (!estado) return;
-
-    // Limpiar clases de estado previas sin tocar 'today'
-    const clases = Array.from(cell.classList).filter(c => !c.startsWith('estado-'));
-    cell.className = clases.join(' ');
-
-    const mapaClases = {
-      TRABAJADO: 'estado-trabajado',
-      VACACIONES: 'estado-vacaciones',
-      LIBRE: 'estado-libre',
-      FESTIVO: 'estado-festivo',
-      PUENTE: 'estado-puente',
-      DESCONOCIDO: 'estado-desconocido'
-    };
-
-    const clase = mapaClases[estado];
-    if (clase) cell.classList.add(clase);
-
-    if (this.esHoy(fecha.getDate(), fecha.getMonth(), fecha.getFullYear())) {
-      cell.classList.add('today');
+    if (this.vistaAnual) {
+      this.generateCalendarioAnual();
+    } else {
+      this.generateCalendarioMensual();
     }
   },
 
   generateCalendarioMensual() {
     const calendarBody = document.getElementById('calendarBody');
     calendarBody.innerHTML = '';
-    document.getElementById('monthYear').textContent =
-      `${this.monthNames[this.currentMonth]} ${this.currentYear}`;
+    document.getElementById('monthYear').textContent = `${this.monthNames[this.currentMonth]} ${this.currentYear}`;
 
     const firstDay = new Date(this.currentYear, this.currentMonth, 1);
     const lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
@@ -93,15 +97,15 @@ const calendar = {
     date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
 
     while (date <= lastDay || date.getDay() !== 1) {
-      const row = document.createElement('tr');
+      let row = document.createElement('tr');
 
-      const weekCell = document.createElement('td');
+      let weekCell = document.createElement('td');
       weekCell.classList.add('week-number');
       weekCell.textContent = this.getSemanaNumero(date);
       row.appendChild(weekCell);
 
       for (let i = 0; i < 7; i++) {
-        const cell = document.createElement('td');
+        let cell = document.createElement('td');
 
         if (date.getMonth() === this.currentMonth && date.getFullYear() === this.currentYear) {
           cell.textContent = date.getDate();
@@ -109,11 +113,44 @@ const calendar = {
           if (this.esHoy(date.getDate(), this.currentMonth, this.currentYear)) {
             cell.classList.add('today');
           }
-
-          // Usar la fecha completa para consultar el mapa
-          this.aplicarEstado(cell, new Date(date), this.currentMonth);
+          // Aplicar estado del trabajador si está seleccionado
+          if (typeof obtenerEstadoDia === 'function') {
+            const fechaActual = new Date(this.currentYear, this.currentMonth, date.getDate());
+            const estado = obtenerEstadoDia(fechaActual);
+            
+            if (estado) {
+              // Eliminar clases de estado anteriores
+              cell.className = cell.className.replace(/estado-\w+/g, '').trim();
+              
+              // Agregar clase según el estado
+              switch(estado) {
+                case 'TRABAJADO':
+                  cell.classList.add('estado-trabajado');
+                  break;
+                case 'VACACIONES':
+                  cell.classList.add('estado-vacaciones');
+                  break;
+                case 'LIBRE':
+                  cell.classList.add('estado-libre');
+                  break;
+                case 'FESTIVO':
+                  cell.classList.add('estado-festivo');
+                  break;
+                case 'PUENTE':
+                  cell.classList.add('estado-puente');
+                  break;
+                case 'DESCONOCIDO':
+                  cell.classList.add('estado-desconocido');
+                  break;
+              }
+              
+              // Mantener la clase 'today' si es necesario
+              if (this.esHoy(date.getDate(), this.currentMonth, this.currentYear)) {
+                cell.classList.add('today');
+              }
+            }
+          }          
         }
-
         row.appendChild(cell);
         date.setDate(date.getDate() + 1);
       }
@@ -128,30 +165,32 @@ const calendar = {
     document.getElementById('monthYear').textContent = `Año ${this.currentYear}`;
 
     for (let mes = 0; mes < 12; mes++) {
-      const titleRow = document.createElement('tr');
+      // Fila de título del mes
+      let titleRow = document.createElement('tr');
       titleRow.classList.add('month-title-row');
-      const titleCell = document.createElement('td');
+      let titleCell = document.createElement('td');
       titleCell.colSpan = 8;
       titleCell.classList.add('month-title');
       titleCell.textContent = this.monthNames[mes];
       titleRow.appendChild(titleCell);
       calendarBody.appendChild(titleRow);
 
+      // Generar días del mes
       const firstDay = new Date(this.currentYear, mes, 1);
       const lastDay = new Date(this.currentYear, mes + 1, 0);
       let date = new Date(firstDay);
       date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
 
       while (date <= lastDay || date.getDay() !== 1) {
-        const row = document.createElement('tr');
+        let row = document.createElement('tr');
 
-        const weekCell = document.createElement('td');
+        let weekCell = document.createElement('td');
         weekCell.classList.add('week-number');
         weekCell.textContent = this.getSemanaNumero(date);
         row.appendChild(weekCell);
 
         for (let i = 0; i < 7; i++) {
-          const cell = document.createElement('td');
+          let cell = document.createElement('td');
 
           if (date.getMonth() === mes && date.getFullYear() === this.currentYear) {
             cell.textContent = date.getDate();
@@ -160,9 +199,40 @@ const calendar = {
               cell.classList.add('today');
             }
 
-            this.aplicarEstado(cell, new Date(date), mes);
+            if (typeof obtenerEstadoDia === 'function') {
+              const fechaActual = new Date(this.currentYear, mes, date.getDate());
+              const estado = obtenerEstadoDia(fechaActual);
+              
+              if (estado) {
+                cell.className = cell.className.replace(/estado-\w+/g, '').trim();
+                
+                switch(estado) {
+                  case 'TRABAJADO':
+                    cell.classList.add('estado-trabajado');
+                    break;
+                  case 'VACACIONES':
+                    cell.classList.add('estado-vacaciones');
+                    break;
+                  case 'LIBRE':
+                    cell.classList.add('estado-libre');
+                    break;
+                  case 'FESTIVO':
+                    cell.classList.add('estado-festivo');
+                    break;
+                  case 'PUENTE':
+                    cell.classList.add('estado-puente');
+                    break;
+                  case 'DESCONOCIDO':
+                    cell.classList.add('estado-desconocido');
+                    break;
+                }
+                
+                if (this.esHoy(date.getDate(), mes, this.currentYear)) {
+                  cell.classList.add('today');
+                }
+              }
+            }          
           }
-
           row.appendChild(cell);
           date.setDate(date.getDate() + 1);
         }
@@ -171,9 +241,9 @@ const calendar = {
       }
 
       if (mes < 11) {
-        const spacerRow = document.createElement('tr');
+        let spacerRow = document.createElement('tr');
         spacerRow.classList.add('month-spacer');
-        const spacerCell = document.createElement('td');
+        let spacerCell = document.createElement('td');
         spacerCell.colSpan = 8;
         spacerCell.innerHTML = '&nbsp;';
         spacerRow.appendChild(spacerCell);
@@ -182,23 +252,25 @@ const calendar = {
     }
   },
 
-  //semana ISO-8601 
   getSemanaNumero(date) {
-    const tmp = new Date(date.getTime());
-    tmp.setHours(0, 0, 0, 0);
-    tmp.setDate(tmp.getDate() + 4 - (tmp.getDay() || 7));
-    const yearStart = new Date(tmp.getFullYear(), 0, 1);
-    return Math.ceil((((tmp - yearStart) / 86400000) + 1) / 7);
+    const tempDate = new Date(date.getTime());
+    tempDate.setHours(0,0,0,0);
+    tempDate.setDate(tempDate.getDate() + 4 - (tempDate.getDay() || 7));
+    const yearStart = new Date(tempDate.getFullYear(), 0, 1);
+    const semanaNum = Math.ceil((((tempDate - yearStart) / 86400000) + 1) / 7);
+    
+    // Usar semana 53 tal cual la calcula ISO-8601
+    return semanaNum;
   },
 
   prevMonth() {
-    if (this.currentMonth === 0) { this.currentMonth = 11; this.currentYear--; }
+    if (this.currentMonth === 0) { this.currentMonth = 11; this.currentYear--; } 
     else { this.currentMonth--; }
     this.generateCalendar();
   },
 
   nextMonth() {
-    if (this.currentMonth === 11) { this.currentMonth = 0; this.currentYear++; }
+    if (this.currentMonth === 11) { this.currentMonth = 0; this.currentYear++; } 
     else { this.currentMonth++; }
     this.generateCalendar();
   },
@@ -220,7 +292,6 @@ const calendar = {
       year === today.getFullYear();
   },
 
-  // Buscar semana 
   buscarSemana() {
     const weekNumber = parseInt(prompt('Ingrese el Nº de semana (1-53):'), 10);
     if (!weekNumber || weekNumber < 1 || weekNumber > 53) {
@@ -235,6 +306,7 @@ const calendar = {
       if (this.getSemanaNumero(date) === weekNumber) {
         encontrado = true;
         this.currentMonth = date.getMonth();
+        break;
       }
       date.setDate(date.getDate() + 1);
     }
