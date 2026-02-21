@@ -154,8 +154,6 @@ function clasificarEstado(valor, colorInfo) {
     }
   }
 
-  if (valor === 1 || valor === '1') return 'TRABAJADO';
-  if (valor === 0 || valor === '0') return 'VACACIONES';
   return 'DESCONOCIDO';
 }
 
