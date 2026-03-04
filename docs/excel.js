@@ -117,6 +117,7 @@ function hexCambiaRgb(argb) {
   };
 }
 
+// ── Clasificar estado a partir de valor y color ─────────────
 function clasificarEstado(valor, colorInfo) {
   if (valor === 1 || valor === '1') return 'TRABAJADO';
   if (valor === 0 || valor === '0') return 'VACACIONES';
@@ -258,6 +259,9 @@ function lunesDeSemanISO(año, semana) {
 
 function cargarSelectTrabajadores(worksheet) {
   trabajadores = detectarTrabajadores(worksheet);
+
+  trabajadores.sort((a, b) => a.nombre > b.nombre ? 1 : -1);
+
   const select = document.getElementById('trabajadorSelect');
   select.innerHTML = '<option value="">Seleccionar trabajador</option>';
 

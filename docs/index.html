@@ -31,27 +31,27 @@
 
 
 
-   <div class="calendar-controls">
+    <div class="calendar-controls">
       <div class="nav-group">
-        <button id="prevYear"    title="Año anterior">&#9664;&#9664; <span class="btn-label">Año</span></button>
-        <button id="prevMonth"   title="Mes anterior">&#9664; <span class="btn-label">Mes</span></button>
+        <button id="prevYear" title="Año anterior">&#9664;&#9664; <span class="btn-label">Año</span></button>
+        <button id="prevMonth" title="Mes anterior">&#9664; <span class="btn-label">Mes</span></button>
       </div>
 
       <h2 id="monthYear"></h2>
 
       <div class="nav-group">
-        <button id="nextMonth"   title="Mes siguiente"><span class="btn-label">Mes</span> &#9654;</button>
-        <button id="nextYear"    title="Año siguiente"><span class="btn-label">Año</span> &#9654;&#9654;</button>
+        <button id="nextMonth" title="Mes siguiente"><span class="btn-label">Mes</span> &#9654;</button>
+        <button id="nextYear" title="Año siguiente"><span class="btn-label">Año</span> &#9654;&#9654;</button>
       </div>
 
       <div class="nav-group nav-actions">
-        <button id="irAHoy"      title="Ir a hoy">&#8962; Hoy</button>
+        <button id="irAHoy" title="Ir a hoy">&#8962; Hoy</button>
         <button id="toggleVista" title="Cambiar vista">&#9783; Vista Anual</button>
         <button id="buscarSemana" title="Buscar semana">&#9906; Semana</button>
       </div>
     </div>
 
-      <input type="file" id="excelInput" accept=".xlsx" title="Cargar archivo Excel"/> <!--display none -->
+    <input type="file" id="excelInput" accept=".xlsx" title="Cargar archivo Excel" /> <!--display none -->
 
     <div class="calendar-container" id="calendarContainer">
       <table class="calendar" id="calendarTable">
@@ -66,7 +66,7 @@
             <th>Sábado</th>
             <th>Domingo</th>
           </tr>
-          <tbody id="calendarBody"></tbody>
+        <tbody id="calendarBody"></tbody>
         </thead>
       </table>
     </div>
@@ -109,23 +109,23 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 
-<div class="panels-container">
+  <div class="panels-container">
 
-  <div class="estadisticas-container" id="estadisticasContainer">
-    <div class="estadisticas-header">
-      <h3>📊 Estadísticas</h3>
-      <button id="toggleEstadisticas" class="btn-toggle">Mostrar</button>
-    </div>
+    <div class="estadisticas-container" id="estadisticasContainer">
+      <div class="estadisticas-header">
+        <h3>📊 Estadísticas</h3>
+        <button id="toggleEstadisticas" class="btn-toggle">Mostrar</button>
+      </div>
 
-    <div class="estadisticas-content" id="estadisticasContent" style="display:none;">
-      <div class="estadisticas-info">
-        Selecciona un trabajador para ver sus estadísticas
+      <div class="estadisticas-content" id="estadisticasContent" style="display:none;">
+        <div class="estadisticas-info">
+          Selecciona un trabajador para ver sus estadísticas
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   </div>
 
@@ -168,7 +168,7 @@
   <script src="estadisticas.js"></script>
   <script src="pdfVisor.js"></script>
 
-<!-- Cargar PDF automáticamente -->
+  <!-- Cargar PDF automáticamente -->
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
@@ -198,8 +198,8 @@
         Este proyecto esta pensado para ayudar a facilitar la gestión del calendario laboral de trabajadores. Con el
         objetivo de mejorar
         la organización y planificación de los turnos, vacaciones y días libres, proporcionando una herramienta visual e
-        interactiva. PRoyecto personal
-        sin animo de lucro, es un proyecto personal para aprender y compartir conocimientos sobre desarrollo web.
+        interactiva. Proyecto personal
+        sin animo de lucro, para aprender y compartir conocimientos sobre desarrollo web.
     </div>
 
     <div class="footer-column">
