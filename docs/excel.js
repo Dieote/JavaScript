@@ -119,9 +119,14 @@ function hexCambiaRgb(argb) {
 
 // ── Clasificar estado a partir de valor y color ─────────────
 function clasificarEstado(valor, colorInfo) {
+  // El valor binario tiene prioridad absoluta.
+  // Cubre trabajadores con turnos irregulares (ej: domingos con valor 1
+  // pero celda de color celeste, que en otros trabajadores significa libre).
   if (valor === 1 || valor === '1') return 'TRABAJADO';
   if (valor === 0 || valor === '0') return 'VACACIONES';
 
+  // Solo si la celda está vacía se interpreta el color.
+  // Festivos y puentes nunca tienen valor numérico, solo color.
   if (colorInfo) {
     const { argb, theme, tint } = colorInfo;
 
