@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Consulta el tiempo actual y el pronóstico de los próximos días." />
+    <title>Atmosphere | El tiempo, en tu mano</title>
+</head>
+
+<body>
+    <div>
+        <header>
+            <a href="#" aria-label="Atmosphere, inicio">
+                <span>
+                    <span>Atmos<span>phere</span></span>
+                    <span>El tiempo, a tu manera</span>
+                </span>
+            </a>
+            <div>Datos en directo</div>
+        </header>
+
+        <main>
+            <section>
+                <div>
+                    <p>Tu tiempo, de un vistazo</p>
+                    <h1>¿Qué tiempo hace?</h1>
+                    <p>
+                        Busca una ciudad o comparte tu ubicación para ver la previsión actualizada.
+                    </p>
+                </div>
+                <button id="location-button" type="button">Usar mi ubicación</button>
+            </section>
+
+            <section>
+                <form id="search-form">
+                    <label>
+                        <span>Nombre de la ciudad</span>
+                        <input id="city-input" type="search" autocomplete="off"
+                            placeholder="Busca una ciudad, por ejemplo Madrid" required />
+                    </label>
+                    <button id="search-button" type="submit">Buscar</button>
+                </form>
+            </section>
+
+            <p id="status-message" role="status" aria-live="polite" hidden></p>
+
+            <section aria-live="polite">
+                <div>
+                    <article>
+                        <div>
+                            <div>
+                                <p>Clima actual</p>
+                                <h2 id="current-city">Busca tu ciudad</h2>
+                                <p id="current-date">La previsión aparecerá aquí</p>
+                            </div>
+                            <div id="current-icon" aria-hidden="true">☀️</div>
+                        </div>
+                        <div>
+                            <span id="current-temp">--</span>
+                            <div>
+                                <p id="current-description">Esperando ubicación</p>
+                                <p>Sensación térmica <span id="feels-like">--°</span></p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div>
+                        <article>
+                            <span aria-hidden="true">💧</span>
+                            <p>Humedad</p>
+                            <p id="humidity">--<span>%</span></p>
+                        </article>
+                        <article>
+                            <span aria-hidden="true">🌬️</span>
+                            <p>Viento</p>
+                            <p id="wind">--<span> m/s</span></p>
+                        </article>
+                        <article>
+                            <span aria-hidden="true">🌡️</span>
+                            <p>Presión</p>
+                            <p id="pressure">--<span> hPa</span></p>
+                        </article>
+                    </div>
+                </div>
+
+                <article>
+                    <div>
+                        <div>
+                            <p>Próximos días</p>
+                            <h2>Pronóstico</h2>
+                        </div>
+                        <span>5 días</span>
+                    </div>
+                    <div id="forecast-list">
+                        <p>Busca una ciudad para consultar la previsión.</p>
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div>
+                    <div>
+                        <p>Explora el mapa</p>
+                        <h2>Ubicación</h2>
+                    </div>
+                    <p id="map-location">
+                        El mapa se actualizará al buscar una ubicación
+                    </p>
+                </div>
+                <div id="map" aria-label="Mapa interactivo de la ubicación seleccionada"></div>
+            </section>
+        </main>
+
+        <footer>
+            Información meteorológica de
+            <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>
+            <span aria-hidden="true"> · </span>
+            Mapas de
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+                OpenStreetMap
+            </a>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
