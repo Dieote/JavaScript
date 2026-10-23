@@ -3,9 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Consulta el tiempo actual y el pronóstico de los próximos días."
+    />
     <title>Atmosphere | El tiempo, en tu mano</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -17,6 +25,13 @@
   <body>
     <div class="page">
       <header class="site-header">
+        <a href="#" class="brand" aria-label="Atmosphere, inicio">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M9 22.5a5 5 0 0 1-.4-10A7.5 7.5 0 0 1 23 11a5.8 5.8 0 0 1 .5 11.5H9Z" fill="currentColor" />
+              <path d="M12 26.5v2M19 26.5v2M25 25.5l1 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
           <span>
             <span class="brand-name">Atmos<span>phere</span></span>
             <span class="brand-tagline">El tiempo, a tu manera</span>
@@ -31,12 +46,15 @@
       <main>
         <section class="intro">
           <div>
-            <p class="eyebrow">Tu tiempo, de un vistazo</p>
+            <p class="eyebrow">Tu tiempo, en tu mano</p>
             <h1>¿Qué tiempo hace?</h1>
             <p class="intro-copy">
               Busca una ciudad o comparte tu ubicación para ver la previsión actualizada.
             </p>
           </div>
+          <button id="location-button" class="button location-button" type="button">
+            Usar mi ubicación
+          </button>
         </section>
 
         <section class="search-panel">
@@ -114,6 +132,24 @@
             </div>
           </article>
         </section>
+
+        <section class="map-card">
+          <div class="section-heading">
+            <div>
+              <p>Explora el mapa</p>
+              <h2>Ubicación</h2>
+            </div>
+            <p id="map-location" class="map-location">
+              El mapa se actualiza al buscar una ubicación
+            </p>
+          </div>
+          <div
+            id="map"
+            class="map-container"
+            aria-label="Mapa interactivo de la ubicación seleccionada"
+          ></div>
+        </section>
+      </main>
 
       <footer class="site-footer">
         Información meteorológica de

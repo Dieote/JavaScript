@@ -4,6 +4,8 @@
   color: #17233b;
   background: #f3f6fb;
   font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -117,6 +119,7 @@ button {
 .brand-tagline,
 .header-status,
 .intro-copy,
+.map-location,
 .site-footer {
   color: #78849a;
 }
@@ -176,6 +179,23 @@ button {
   color: white;
   font-size: 14px;
   font-weight: 700;
+}
+
+.location-button {
+  background: #17233b;
+}
+
+.location-button:hover {
+  background: #2b3c5d;
+}
+
+.search-panel,
+.forecast-card,
+.map-card {
+  border: 1px solid #e3e9f2;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 4px 16px rgb(25 44 77 / 4%);
 }
 
 .search-panel {
@@ -388,6 +408,11 @@ button {
   font-weight: 600;
 }
 
+.forecast-card,
+.map-card {
+  padding: 20px;
+}
+
 .section-heading {
   gap: 12px;
   margin-bottom: 12px;
@@ -448,6 +473,26 @@ button {
   text-align: right;
 }
 
+.map-card {
+  margin-top: 20px;
+}
+
+.map-location {
+  font-size: 12px;
+}
+
+.section-heading .map-location {
+  color: #78849a;
+}
+
+.map-container {
+  z-index: 0;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #e9eff8;
+}
+
 .leaflet-control-attribution {
   font-size: 9px !important;
 }
@@ -460,4 +505,70 @@ button {
 
 .site-footer a {
   color: #59677f;
+}
+
+@media (max-width: 760px) {
+  .weather-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .page {
+    width: min(100% - 24px, 1120px);
+    padding-top: 18px;
+  }
+
+  .site-header {
+    margin-bottom: 28px;
+  }
+
+  .intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .location-button {
+    width: 100%;
+  }
+
+  .search-panel {
+    padding: 10px;
+  }
+
+  .search-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search-button {
+    width: 100%;
+  }
+
+  .current-weather {
+    min-height: 240px;
+    padding: 22px;
+  }
+
+  .metrics {
+    gap: 8px;
+  }
+
+  .metric-card {
+    padding: 10px;
+  }
+
+  .metric-value {
+    font-size: 16px;
+  }
+
+  .forecast-card,
+  .map-card {
+    padding: 16px;
+  }
+
+  .map-location {
+    max-width: 180px;
+    text-align: right;
+  }
 }
