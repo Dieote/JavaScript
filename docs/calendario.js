@@ -1,6 +1,7 @@
 const calendar = {
   currentYear: new Date().getFullYear(),
   currentMonth: new Date().getMonth(),
+  onYearChange: null,
   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
   ],
@@ -143,6 +144,51 @@ const calendar = {
                   cell.classList.add('estado-desconocido');
                   break;
               }
+
+              if (typeof asignaciones !== 'undefined') {
+                const fecha = fechaKey(fechaActual);
+                const trabajador = obtenerTrabajadorActual();
+                const esFinDeSemana = fechaActual.getDay() === 0 || fechaActual.getDay() === 6;
+                const esExtra = asignaciones.esDiaExtra(trabajador, fecha);
+
+                if (estado === 'TRABAJADO' || esExtra) {
+                  const select = document.createElement('select');
+                  select.classList.add('asignacion-select');
+                  select.dataset.fecha = fecha;
+                  select.setAttribute(
+                    'aria-label',
+                    `Zona de trabajo del ${fechaActual.toLocaleDateString('es')}`
+                  );
+
+                  const valorActual = asignaciones.obtener(trabajador, fecha);
+                  asignaciones.opciones.forEach(opcion => {
+                    const elemento = document.createElement('option');
+                    elemento.value = opcion.valor;
+                    elemento.textContent = opcion.texto;
+                    select.appendChild(elemento);
+                  });
+                  select.value = valorActual;
+                  select.dataset.valorAnterior = valorActual;
+                  cell.appendChild(select);
+                  cell.classList.toggle('dia-ausente', valorActual === 'AUSENTE');
+                }
+
+                if (estado !== 'TRABAJADO' && (esFinDeSemana || estado === 'FESTIVO')) {
+                  const boton = document.createElement('button');
+                  boton.type = 'button';
+                  boton.classList.add('dia-extra-toggle');
+                  boton.dataset.fecha = fecha;
+                  boton.dataset.activo = String(esExtra);
+                  boton.textContent = esExtra ? 'Quitar día extra' : 'Día Extra';
+                  boton.setAttribute(
+                    'aria-label',
+                    `${esExtra ? 'Quitar día extra del' : 'Marcar como día extra el'} ${fechaActual.toLocaleDateString('es')}`
+                  );
+                  cell.appendChild(boton);
+                }
+
+                cell.classList.toggle('dia-extra', esExtra);
+              }
               
               // Mantener la clase 'today' si es necesario
               if (this.esHoy(date.getDate(), this.currentMonth, this.currentYear)) {
@@ -264,25 +310,45 @@ const calendar = {
   },
 
   prevMonth() {
+    const añoAnterior = this.currentYear;
     if (this.currentMonth === 0) { this.currentMonth = 11; this.currentYear--; } 
     else { this.currentMonth--; }
     this.generateCalendar();
+    if (this.currentYear !== añoAnterior && this.onYearChange) {
+      this.onYearChange(this.currentYear);
+    }
   },
 
   nextMonth() {
+    const añoAnterior = this.currentYear;
     if (this.currentMonth === 11) { this.currentMonth = 0; this.currentYear++; } 
     else { this.currentMonth++; }
     this.generateCalendar();
+    if (this.currentYear !== añoAnterior && this.onYearChange) {
+      this.onYearChange(this.currentYear);
+    }
   },
 
-  prevYear() { this.currentYear--; this.generateCalendar(); },
-  nextYear() { this.currentYear++; this.generateCalendar(); },
+  prevYear() {
+    this.currentYear--;
+    this.generateCalendar();
+    if (this.onYearChange) this.onYearChange(this.currentYear);
+  },
+  nextYear() {
+    this.currentYear++;
+    this.generateCalendar();
+    if (this.onYearChange) this.onYearChange(this.currentYear);
+  },
 
   irAHoy() {
+    const añoAnterior = this.currentYear;
     const today = new Date();
     this.currentYear = today.getFullYear();
     this.currentMonth = today.getMonth();
     this.generateCalendar();
+    if (this.currentYear !== añoAnterior && this.onYearChange) {
+      this.onYearChange(this.currentYear);
+    }
   },
 
   esHoy(day, month, year) {

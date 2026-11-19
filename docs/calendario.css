@@ -184,6 +184,46 @@ body {
   min-width: 38px;
 }
 
+.excel-status {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.excel-status.error {
+  color: #ffe0e0;
+}
+
+.asignacion-select {
+  display: block;
+  width: 100%;
+  min-width: 115px;
+  margin-top: 6px;
+  padding: 4px;
+  border: 1px solid #b8c5ce;
+  border-radius: 5px;
+  background: white;
+  color: #333;
+  font-size: 0.78rem;
+}
+
+.dia-extra-toggle {
+  display: block;
+  margin: 6px auto 0;
+  padding: 4px 6px;
+  border: 1px solid #477d50;
+  border-radius: 5px;
+  background: #f3fff4;
+  color: #285d30;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.dia-extra-toggle:hover {
+  background: #dff3e1;
+}
+
 .calendar td:not(.week-number):hover {
   background: #ebadad;
   transform: scale(1.05);
@@ -194,6 +234,16 @@ body {
   font-weight: bold;
   box-shadow: inset 0 0 0 3px #ff6b6b;
   position: relative;
+}
+
+.dia-ausente {
+  outline: 3px solid #d40000;
+  outline-offset: -3px;
+}
+
+.dia-extra {
+  outline: 3px solid #16833a;
+  outline-offset: -3px;
 }
 
 /* VISTA ANUAL */
