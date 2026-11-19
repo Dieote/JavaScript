@@ -4,12 +4,12 @@ let trabajadorActual = null;
 let worksheetGlobal = null;
 let trabajadores = [];
 let añoExcel = null;
+let añoCalendario = null;
+let horarioProvisional = false;
+let solicitudCarga = 0;
 
-// mapa fecha→estado para el trabajador activo.
-// Clave: "YYYY-MM-DD"  |  Valor: "TRABAJADO" | "LIBRE" 
 let mapaEstados = {};
 
-//  formatea una fecha como "YYYY-MM-DD" 
 function fechaKey(fecha) {
   const y = fecha.getFullYear();
   const m = String(fecha.getMonth() + 1).padStart(2, '0');
@@ -17,46 +17,77 @@ function fechaKey(fecha) {
   return `${y}-${m}-${d}`;
 }
 
-// carga del archivo 
 input.addEventListener('change', manejarArchivo);
+
+function mostrarEstadoCarga(mensaje, esError = false) {
+  const estado = document.getElementById('excelStatus');
+  if (!estado) return;
+
+  estado.textContent = mensaje;
+  estado.classList.toggle('error', esError);
+}
 
 async function manejarArchivo(event) {
   const file = event.target.files[0];
   if (!file) return;
-  console.log('Archivo cargado:', file.name);
-  await leerExcel(file);
+
+  try {
+    await leerExcel(file);
+    mostrarEstadoCarga(`Calendario ${añoCalendario} cargado correctamente.`);
+  } catch (error) {
+    console.error('No se pudo cargar el archivo Excel:', error);
+    mostrarEstadoCarga(`No se pudo cargar el calendario: ${error.message}`, true);
+  }
 }
 
-async function leerExcel(file) {
+async function leerExcel(
+  file,
+  añoEsperado,
+  nombreTrabajador = trabajadorActual,
+  solicitudActual,
+  añoSolicitado = añoEsperado,
+  provisional = false
+) {
   const workbook = new ExcelJS.Workbook();
   const arrayBuffer = await file.arrayBuffer();
   await workbook.xlsx.load(arrayBuffer);
-  console.log('Workbook cargado correctamente');
-  procesarWorkbook(workbook);
+  if (solicitudActual && solicitudActual !== solicitudCarga) return;
+  procesarWorkbook(workbook, añoEsperado, nombreTrabajador, añoSolicitado, provisional);
 }
 
-function procesarWorkbook(workbook) {
+function procesarWorkbook(workbook, añoEsperado, nombreTrabajador, añoSolicitado, provisional) {
   const worksheet = workbook.worksheets[0];
   if (!worksheet) {
-    console.warn('No se encontró ninguna hoja en el archivo Excel.');
-    return;
+    throw new Error('El archivo no contiene ninguna hoja de cálculo.');
   }
-  console.log('Procesando hoja:', worksheet.name);
+
+  const añoDetectado = detectarAñoExcel(worksheet);
+  if (!añoDetectado) {
+    throw new Error('La celda A1 debe contener el año del calendario.');
+  }
+  if (añoEsperado && añoDetectado !== añoEsperado) {
+    throw new Error(`El archivo contiene el año ${añoDetectado}, pero se esperaba ${añoEsperado}.`);
+  }
 
   worksheetGlobal = worksheet;
-  añoExcel = detectarAñoExcel(worksheet);
-  console.log('Año del calendario:', añoExcel);
-
-  cargarSelectTrabajadores(worksheet);
+  añoExcel = añoDetectado;
+  añoCalendario = añoSolicitado || añoDetectado;
+  horarioProvisional = provisional;
+  calendar.currentYear = añoCalendario;
+  return cargarSelectTrabajadores(worksheet, nombreTrabajador);
 }
 
 function detectarAñoExcel(worksheet) {
-  const añoActual = new Date().getFullYear();
-  console.log('Año de referencia:', añoActual);
-  return añoActual;
+  const valor = worksheet.getCell('A1').value;
+  const año = typeof valor === 'number'
+    ? valor
+    : typeof valor === 'string' && /^\d{4}$/.test(valor.trim())
+      ? Number(valor.trim())
+      : null;
+
+  return Number.isInteger(año) && año >= 1900 && año <= 9999 ? año : null;
 }
 
-//  Detectar trabajadores  
 function detectarTrabajadores(worksheet) {
   const FILA_NOMBRES = 1;
   const COLUMNA_INICIO = 3;   // C
@@ -75,16 +106,17 @@ function detectarTrabajadores(worksheet) {
   return detectados;
 }
 
-// ── Detectar letras de día por fila (sin cambios) ───────────
 function detectarDias(worksheet) {
   const COLUMNA_DIA = 2;  // B
   const FILA_INICIO = 9;
+  const diasValidos = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
   const diasPorFila = {};
 
   for (let row = FILA_INICIO; row <= worksheet.rowCount; row++) {
     const valor = worksheet.getRow(row).getCell(COLUMNA_DIA).value;
-    if (typeof valor === 'string' && valor.trim() !== '') {
-      diasPorFila[row] = valor.trim().toUpperCase();
+    if (typeof valor === 'string') {
+      const dia = valor.trim().toUpperCase();
+      if (diasValidos.includes(dia)) diasPorFila[row] = dia;
     }
   }
   return diasPorFila;
@@ -117,16 +149,10 @@ function hexCambiaRgb(argb) {
   };
 }
 
-// ── Clasificar estado a partir de valor y color ─────────────
 function clasificarEstado(valor, colorInfo) {
-  // El valor binario tiene prioridad absoluta.
-  // Cubre trabajadores con turnos irregulares (ej: domingos con valor 1
-  // pero celda de color celeste, que en otros trabajadores significa libre).
   if (valor === 1 || valor === '1') return 'TRABAJADO';
   if (valor === 0 || valor === '0') return 'VACACIONES';
 
-  // Solo si la celda está vacía se interpreta el color.
-  // Festivos y puentes nunca tienen valor numérico, solo color.
   if (colorInfo) {
     const { argb, theme, tint } = colorInfo;
 
@@ -169,57 +195,33 @@ function construirMapaEstados(worksheet, trabajador) {
   const FILA_INICIO = 9;
   const FILA_FIN = worksheet.rowCount;
 
-  // encontrar la fila ancla (primer lunes del Excel)
-  let filaAncla = null;
+  const filasDias = Object.keys(diasPorFila).map(Number).sort((a, b) => a - b);
+  const primeraFilaDia = filasDias[0];
+  let filaSemana1 = null;
+
   for (let row = FILA_INICIO; row <= FILA_FIN; row++) {
-    if (diasPorFila[row] === 'L') {
-      filaAncla = row;
-      break;
-    }
-  }
-
-  if (filaAncla === null) {
-    console.warn('No se encontró fila ancla (primer lunes).');
-    return {};
-  }
-
-  // encontrar el número de semana del Excel para esa fila
-  let numeroSemanaAncla = null;
-  for (let row = filaAncla; row >= FILA_INICIO; row--) {
     const valor = worksheet.getRow(row).getCell(1).value;
-    if (typeof valor === 'string' && valor.toLowerCase().includes('semana')) {
-      numeroSemanaAncla = parseInt(valor.replace(/\D/g, ''), 10);
+    if (typeof valor === 'string' && /semana\s*1\b/i.test(valor)) {
+      filaSemana1 = row;
       break;
     }
   }
 
-  if (numeroSemanaAncla === null) {
-    console.warn('No se encontró número de semana ancla.');
-    return {};
+  if (!primeraFilaDia || !filaSemana1 || diasPorFila[filaSemana1] !== 'L') {
+    throw new Error('No se encontró la primera fila de la semana 1 en el calendario.');
   }
 
-  // calcular la fecha real del lunes ancla.
-  // Si el número de semana ancla es alto (>50), el Excel está
-  // mostrando el final del año ANTERIOR al año principal.
-  const añoAncla = numeroSemanaAncla > 50 ? añoExcel - 1 : añoExcel;
-  const fechaAncla = lunesDeSemanISO(añoAncla, numeroSemanaAncla);
-
-  console.log(
-    `Ancla: fila ${filaAncla} = Semana ${numeroSemanaAncla} → ${fechaKey(fechaAncla)}`
-  );
-
-  // recorrer todas las filas y construir el mapa
+  // La semana 1 contiene el 1 de enero; las filas previas son semanas de contexto.
+  const diasAntesSemana1 = filasDias.filter(row => row < filaSemana1).length;
   const mapa = {};
-  let fechaActual = new Date(fechaAncla);
+  const fechaSemana1 = lunesDeSemana(añoExcel, 1);
+  let fechaActual = new Date(fechaSemana1);
+  fechaActual.setDate(fechaSemana1.getDate() - diasAntesSemana1);
 
-  // Letras de día en orden de avance (L ya está en fechaAncla)
-  const ordenDias = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
-
-  for (let row = filaAncla; row <= FILA_FIN; row++) {
+  for (const row of filasDias) {
     const letraDia = diasPorFila[row];
-    if (!letraDia) continue;  // fila sin día → saltamos
 
-    const diaSemanaJS = fechaActual.getDay(); // 0=Dom…6=Sáb
+    const diaSemanaJS = fechaActual.getDay();
     const letrasJS = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
     const letraEsperada = letrasJS[diaSemanaJS];
 
@@ -233,38 +235,32 @@ function construirMapaEstados(worksheet, trabajador) {
       }
     }
 
-    // Guardar el estado en el mapa
     const { valor, colorInfo } = leerCelda(worksheet, row, col);
     const estado = clasificarEstado(valor, colorInfo);
-    mapa[fechaKey(fechaActual)] = estado;
+    // Los datos de respaldo solo pintan el año solicitado; las semanas del resto no se heredan.
+    if (!horarioProvisional || fechaActual.getFullYear() === añoCalendario) {
+      mapa[fechaKey(fechaActual)] = estado;
+    }
 
-    // Avanzar al día siguiente para la próxima fila con día
     fechaActual = new Date(fechaActual);
     fechaActual.setDate(fechaActual.getDate() + 1);
   }
 
-  console.log(`Mapa construido para ${trabajador.nombre}: ${Object.keys(mapa).length} días`);
   return mapa;
 }
 
-//  ISO-8601:
-// La semana 1 es la que contiene el primer jueves del año.
-function lunesDeSemanISO(año, semana) {
-  // 4 de enero siempre está en la semana 1
-  const cuatroEnero = new Date(año, 0, 4);
-  // Retroceder al lunes de esa semana
-  const diaSemana = cuatroEnero.getDay() || 7; // 1=Lun…7=Dom
-  const lunesSemana1 = new Date(cuatroEnero);
-  lunesSemana1.setDate(cuatroEnero.getDate() - (diaSemana - 1));
+function lunesDeSemana(año, semana) {
+  const primerDia = new Date(año, 0, 1);
+  const lunesSemana1 = new Date(primerDia);
+  lunesSemana1.setDate(primerDia.getDate() - ((primerDia.getDay() + 6) % 7));
 
   const resultado = new Date(lunesSemana1);
   resultado.setDate(lunesSemana1.getDate() + (semana - 1) * 7);
   return resultado;
 }
 
-function cargarSelectTrabajadores(worksheet) {
+function cargarSelectTrabajadores(worksheet, nombreSeleccionado = null) {
   trabajadores = detectarTrabajadores(worksheet);
-
   trabajadores.sort((a, b) => a.nombre > b.nombre ? 1 : -1);
 
   const select = document.getElementById('trabajadorSelect');
@@ -276,52 +272,62 @@ function cargarSelectTrabajadores(worksheet) {
     option.textContent = t.nombre;
     select.appendChild(option);
   });
+
+  const trabajador = trabajadores.find(
+    t => t.nombre.toLowerCase() === (nombreSeleccionado || '').toLowerCase()
+  );
+  select.value = trabajador ? trabajador.nombre : '';
+  return actualizarTrabajador(select.value);
 }
 
-//  Manejo del select 
 document.getElementById('trabajadorSelect')
   .addEventListener('change', e => {
-    const nombre = e.target.value;
+    actualizarTrabajador(e.target.value);
+  });
 
-    if (!nombre) {
-      trabajadorActual = null;
-      mapaEstados = {};
-      calendar.generateCalendar();
-      if (typeof estadisticas !== 'undefined') {
-        estadisticas.limpiar();
-      }
-      return;
-    }
+function actualizarTrabajador(nombre) {
+  trabajadorActual = nombre || null;
 
-    trabajadorActual = nombre;
+  if (!nombre) {
+    mapaEstados = {};
+    calendar.generateCalendar();
+    if (typeof estadisticas !== 'undefined') estadisticas.limpiar();
+    return true;
+  }
 
-    const trabajador = trabajadores.find(
-      t => t.nombre.toLowerCase() === nombre.toLowerCase()
-    );
+  const trabajador = trabajadores.find(
+    t => t.nombre.toLowerCase() === nombre.toLowerCase()
+  );
 
-    if (!trabajador || !worksheetGlobal) return;
+  if (!trabajador || !worksheetGlobal) return false;
 
-    // Construir el mapa UNA SOLA VEZ al cambiar de trabajador
+  try {
     mapaEstados = construirMapaEstados(worksheetGlobal, trabajador);
-
     calendar.generateCalendar();
 
-    // Notificar a estadisticas si está disponible
     if (typeof estadisticas !== 'undefined') {
       estadisticas.actualizar(nombre);
     }
-  });
+    return true;
+  } catch (error) {
+    console.error('No se pudo construir el calendario:', error);
+    mostrarEstadoCarga(`No se pudo mostrar el calendario: ${error.message}`, true);
+    return false;
+  }
+}
 
-// ── API pública: expone el mapa para estadisticas.js ─────────
 function obtenerMapaActual() {
   return mapaEstados;
 }
 
 function obtenerAñoExcel() {
-  return añoExcel;
+  return añoCalendario;
 }
 
-// Esta función es llamada por calendar.js en cada celda.
+function obtenerTrabajadorActual() {
+  return trabajadorActual;
+}
+
 function obtenerEstadoDia(fecha) {
   if (!trabajadorActual) return null;
 
@@ -331,16 +337,65 @@ function obtenerEstadoDia(fecha) {
   return estado || null;
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
+async function cargarCalendarioAño(año) {
+  const solicitudActual = ++solicitudCarga;
+  const trabajadorAnterior = trabajadorActual;
+
+  worksheetGlobal = null;
+  añoExcel = null;
+  trabajadorActual = null;
+  mapaEstados = {};
+  calendar.generateCalendar();
+  if (typeof estadisticas !== 'undefined') estadisticas.limpiar();
+  document.getElementById('trabajadorSelect').innerHTML =
+    '<option value="">Seleccionar trabajador</option>';
+
   try {
-    const response = await fetch('assets/calendario2026.xlsx');
+    mostrarEstadoCarga(`Cargando calendario ${año}...`);
+    let añoFuente = año;
+    let response = await fetch(`assets/calendario${añoFuente}.xlsx`);
+    if (solicitudActual !== solicitudCarga) return;
+
+    let provisional = false;
+    if (response.status === 404) {
+      // Solo un 404 activa el respaldo de las semanas incluidas en el Excel anterior.
+      provisional = true;
+      añoFuente = año - 1;
+      response = await fetch(`assets/calendario${añoFuente}.xlsx`);
+      if (solicitudActual !== solicitudCarga) return;
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        `No se pudo acceder a calendario${añoFuente}.xlsx (HTTP ${response.status}).`
+      );
+    }
+
     const blob = await response.blob();
-    const file = new File([blob], 'calendario2026.xlsx', {
+    const file = new File([blob], `calendario${añoFuente}.xlsx`, {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
-    await leerExcel(file);
-    console.log('✅ Excel cargado automáticamente');
+    const trabajadorCargado = await leerExcel(
+      file,
+      añoFuente,
+      trabajadorAnterior,
+      solicitudActual,
+      año,
+      provisional
+    );
+    if (solicitudActual !== solicitudCarga) return;
+    if (trabajadorCargado === false) return;
+    mostrarEstadoCarga(
+      provisional ? 'Horario provisional, no confirmado' : `Calendario ${añoCalendario} cargado correctamente.`
+    );
   } catch (error) {
-    console.log('⚠️ Carga manual del Excel necesaria:', error.message);
+    if (solicitudActual !== solicitudCarga) return;
+    console.error('No se pudo cargar el calendario automáticamente:', error);
+    mostrarEstadoCarga(`No se pudo cargar el calendario: ${error.message}`, true);
   }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  calendar.onYearChange = cargarCalendarioAño;
+  cargarCalendarioAño(calendar.currentYear);
 });
